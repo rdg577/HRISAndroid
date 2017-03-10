@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HRIS APP</string>
+    <string name="ddn">Davao del Norte</string>
+    <string name="main_menu">MAIN MENU</string>
+    <string name="pass_slip">PASS SLIP</string>
+    <string name="ptlos">PTLOS</string>
+    <string name="justification">JUSTIFICATION</string>
+    <string name="travel_order">TRAVEL ORDER</string>
+    <string name="approving_eic">Approving EIC</string>
+</resources>
