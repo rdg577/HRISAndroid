@@ -11,24 +11,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:label="HRIS Dashboard">
+        <activity
+            android:name=".MainActivity"
+            android:label="HRIS">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <!--<activity
+        <activity android:name=".LoginActivity" />
+        <!--
+        <activity
             android:name=".MenuActivity"
             android:parentActivityName=".MainActivity">
             &lt;!&ndash; The meta-data tag is required if you support API level 15 and lower &ndash;&gt;
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-        </activity>-->
-        <activity android:name=".PassSlipActivity"
+        </activity>
+        -->
+        <activity
+            android:name=".PassSlipActivity"
             android:label="Pass Slips For Approval"
             android:parentActivityName=".MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
@@ -36,6 +40,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".PassSlipApplicationDetailActivity"
+            android:parentActivityName=".PassSlipActivity"
+            android:label="Pass Slip Detail">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" /></activity>
     </application>
 
 </manifest>
