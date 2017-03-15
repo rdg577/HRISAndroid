@@ -5,6 +5,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -101,6 +103,28 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main_actions, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                session.logoutUser();
+                return true;
+            case R.id.refresh:
+                onRefresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onRefresh() {
         fetchMenus(user.get(SessionManager.KEY_EIC));
     }
@@ -132,12 +156,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                             try {
                                 JSONObject menuObj = response.getJSONObject(i);
 
-                                int rank = menuObj.getInt("Id");
+                                int id = menuObj.getInt("Id");
                                 String title = menuObj.getString("Title");
                                 String iconUrl = menuObj.getString("IconUrl");
                                 int totalApplications = menuObj.getInt("TotalApplications");
 
-                                Menu m = new Menu(rank, title, iconUrl, totalApplications);
+                                Menu m = new Menu(id, title, iconUrl, totalApplications);
 
                                 menuList.add(0, m);
 

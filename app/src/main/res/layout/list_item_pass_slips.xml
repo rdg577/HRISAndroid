@@ -10,7 +10,7 @@
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
@@ -19,14 +19,14 @@
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:textColor="@color/colorAccent"
-        android:textSize="10sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/time_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#5d5d5d"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#5d5d5d"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="invisible" />
 

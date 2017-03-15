@@ -130,11 +130,11 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            HttpHandler sh = new HttpHandler();
+            HttpHandler httpHandler = new HttpHandler();
 
             // Making a request to url and getting response
             this._url = this._url + approvingEIC;
-            String jsonStr = sh.makeServiceCall(this._url);
+            String jsonStr = httpHandler.makeServiceCall(this._url);
 
             if (jsonStr != null) {
                 try {
