@@ -33,7 +33,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
     private ListView lv;
 
     // URL to get JSON
-    private static String url = "http://172.16.0.71/hris/Toolbox/PassSlipsPending?approvingEIC=";
+    private static String url = "http://172.16.0.81/hris/Toolbox/PassSlipsPending?approvingEIC=";
 
     ArrayList<HashMap<String, String>> _list;
 
@@ -72,7 +72,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
         lv = (ListView) findViewById(R.id.listPassSlips);
         lv.setOnItemClickListener(this);
 
-        new GetPassSlipApplications().execute();
+        new GetPassSlipApplications(this.url).execute();
 
     }
 
@@ -101,6 +101,22 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
      */
     private class GetPassSlipApplications extends AsyncTask<Void, Void, Void> {
 
+        private String _url;
+        private int _count;
+
+        public int get_count() {
+            return _count;
+        }
+
+        public void set_count(int _count) {
+            this._count = _count;
+        }
+
+        public GetPassSlipApplications(String u) {
+            this._url = u;
+            this.set_count(0);
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -117,8 +133,8 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
             HttpHandler sh = new HttpHandler();
 
             // Making a request to url and getting response
-            String UrlWithEIC = url + approvingEIC;
-            String jsonStr = sh.makeServiceCall(UrlWithEIC);
+            this._url = this._url + approvingEIC;
+            String jsonStr = sh.makeServiceCall(this._url);
 
             if (jsonStr != null) {
                 try {
@@ -126,6 +142,9 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
 
                     // Getting JSON Array node
                     JSONArray items = jsonObj.getJSONArray("pass_slips");
+
+                    // counted number of items
+                    this.set_count(items.length());
 
                     // looping through all items
                     for (int i = 0; i < items.length(); i++) {
@@ -136,9 +155,6 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
                         String time_out = c.getString("timeOut");
                         int recNo = c.getInt("recNo");
                         String destination = c.getString("destination");
-                        // convert timeOut to type Date
-                        /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date dateTimeOut = sdf.parse(strTimeOut);*/
 
                         // tmp hash map for single entry
                         HashMap<String, String> entry = new HashMap<>();

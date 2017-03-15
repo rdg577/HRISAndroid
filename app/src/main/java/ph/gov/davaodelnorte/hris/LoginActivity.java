@@ -40,10 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
 
-
         // Login button
         btnLogin = (Button) findViewById(R.id.btnLogin);
-
 
         // Login button click event
         btnLogin.setOnClickListener(new View.OnClickListener() {

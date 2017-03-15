@@ -1,24 +1,46 @@
 package ph.gov.davaodelnorte.hris;
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.text.Html;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-    // Alert Dialog Manager
-    AlertDialogManager alert = new AlertDialogManager();
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import app.MyApplication;
+import helper.Menu;
+import helper.SwipeListAdapter;
+
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+    private String TAG = MainActivity.class.getSimpleName();
+    final String URL = "http://172.16.0.81/hris/Toolbox/GetAllApplications?approvingEIC=";
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView listView;
+    private SwipeListAdapter adapter;
+    private List<Menu> menuList;
     // Session Manager Class
     SessionManager session;
-
-    // Button Logout
-    Button btnLogout;
+    HashMap<String, String> user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,32 +49,35 @@ public class MainActivity extends AppCompatActivity {
 
         // Session class instance
         session = new SessionManager(getApplicationContext());
+        session.checkLogin();
+        user = session.getUserDetails();
 
-        TextView lblName = (TextView) findViewById(R.id.lblName);
-        TextView lblEmail = (TextView) findViewById(R.id.lblEmail);
+        listView = (ListView) findViewById(R.id.listView);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
-        // Button logout
-        btnLogout = (Button) findViewById(R.id.btnLogout);
+        menuList = new ArrayList<>();
+        adapter = new SwipeListAdapter(this, menuList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
 
-        // Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
-
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
-        session.checkLogin();
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
 
-        // get user data from session
-        HashMap<String, String> user = session.getUserDetails();
-
-        // eic
-        String eic = user.get(SessionManager.KEY_EIC);
-
-        // name
-        String name = user.get(SessionManager.KEY_NAME);
-
+                                        fetchMenus(user.get(SessionManager.KEY_EIC));
+                                    }
+                                }
+        );
+        // displaying user data
+        /*lblName.setText(name);
+        lblEmail.setText(eic);*/
         /*
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.NOUGAT) {
             // displaying user data
@@ -60,15 +85,10 @@ public class MainActivity extends AppCompatActivity {
             lblEmail.setText(Html.fromHtml("Email: <b>" + email + "</b>", Html.FROM_HTML_MODE_COMPACT));
         }
         */
-        // displaying user data
-        lblName.setText(Html.fromHtml("Approving Officer: <b>" + name + "</b>"));
-        lblEmail.setText(Html.fromHtml("EIC: <b>" + eic + "</b>"));
-
-
         /**
          * Logout button click event
          * */
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        /*btnLogout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -77,12 +97,98 @@ public class MainActivity extends AppCompatActivity {
                 // redirect user to LoginActivity
                 session.logoutUser();
             }
-        });
+        });*/
     }
 
-    public void showPassSlipActivity(View view)
-    {
-        Intent intent = new Intent(this, PassSlipActivity.class);
-        startActivity(intent);
+    @Override
+    public void onRefresh() {
+        fetchMenus(user.get(SessionManager.KEY_EIC));
+    }
+
+    /**
+     * Fetching movies json by making http call
+     */
+    private void fetchMenus(String approvingEIC) {
+
+        // showing refresh animation before making http call
+        swipeRefreshLayout.setRefreshing(true);
+
+        // appending offset to url
+        String url = URL + approvingEIC;
+
+        // Volley's json array request object
+        JsonArrayRequest req = new JsonArrayRequest(url,
+            new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    Log.d(TAG, response.toString());
+
+                    if (response.length() > 0) {
+                        // clear the list
+                        menuList.clear();
+
+                        // looping through json and adding to movies list
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject menuObj = response.getJSONObject(i);
+
+                                int rank = menuObj.getInt("Id");
+                                String title = menuObj.getString("Title");
+                                String iconUrl = menuObj.getString("IconUrl");
+                                int totalApplications = menuObj.getInt("TotalApplications");
+
+                                Menu m = new Menu(rank, title, iconUrl, totalApplications);
+
+                                menuList.add(0, m);
+
+                            } catch (JSONException e) {
+                                Log.e(TAG, "JSON Parsing error: " + e.getMessage());
+                            }
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    // stopping swipe refresh
+                    swipeRefreshLayout.setRefreshing(false);
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "Server Error: " + error.getMessage());
+
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    // stopping swipe refresh
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        );
+
+        // Adding request to request queue
+        MyApplication.getInstance().addToRequestQueue(req);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        try {
+            // get the object being selected
+            Object r = parent.getItemAtPosition(position);
+            Menu m = (Menu) r;
+            switch (m.Title) {
+                case "PASS SLIP":
+                    Intent intent = new Intent(this, PassSlipActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+            Log.d(TAG, "Menu Title: " + m.Title);
+//            String menuTitle =
+//            // forward the recNo to the next activity
+//            Intent i = new Intent(this, PassSlipApplicationDetailActivity.class);
+//            startActivity(i);
+        } catch(Exception ex) {
+            Log.e(TAG, "Error: " + ex.getMessage());
+        }
     }
 }

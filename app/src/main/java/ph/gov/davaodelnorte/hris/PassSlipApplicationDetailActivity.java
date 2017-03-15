@@ -31,8 +31,8 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    private static String urlPassSlipDetail = "http://172.16.0.71/hris/Toolbox/PassSlipDetail?id=";
-    private static String urlPassSlipApproval = "http://172.16.0.71/hris/Toolbox/PassSlipApproval?";
+    private static String urlPassSlipDetail = "http://172.16.0.81/hris/Toolbox/PassSlipDetail?id=";
+    private static String urlPassSlipApproval = "http://172.16.0.81/hris/Toolbox/PassSlipApproval?";
 
     /*ArrayList<HashMap<String, String>> _list;*/
 
