@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HRIS APP</string>
+    <string name="app_name">HRIS</string>
     <string name="ddn">Davao del Norte</string>
     <string name="main_menu">MAIN MENU</string>
     <string name="pass_slip">PASS SLIP</string>

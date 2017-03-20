@@ -8,11 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PassSlipApplicationDetailActivity extends AppCompatActivity {
@@ -31,8 +23,8 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    private static String urlPassSlipDetail = "http://172.16.0.81/hris/Toolbox/PassSlipDetail?id=";
-    private static String urlPassSlipApproval = "http://172.16.0.81/hris/Toolbox/PassSlipApproval?";
+    final String urlPassSlipDetail = "hris/Toolbox/PassSlipDetail?id=";
+    private static String urlPassSlipApproval = "hris/Toolbox/PassSlipApproval?";
 
     /*ArrayList<HashMap<String, String>> _list;*/
 
@@ -65,6 +57,9 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
+        // domain
+        urlPassSlipApproval = user.get(SessionManager.KEY_DOMAIN) + urlPassSlipApproval;
+        // urlPassSlipDetail = user.get(SessionManager.KEY_DOMAIN) + urlPassSlipDetail;
 
         passSlip = new PassSlip();
 
@@ -73,7 +68,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
             name = (TextView) findViewById(R.id.name);
             destination=(TextView) findViewById(R.id.destination);
             purpose = (TextView) findViewById(R.id.purpose);
-            time_out = (TextView) findViewById(R.id.time_out);
+            time_out = (TextView) findViewById(R.id.date_applied);
             isOfficial = (RadioButton) findViewById(R.id.isOfficial);
             isPersonal = (RadioButton) findViewById(R.id.isPersonal);
 
@@ -101,7 +96,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
             recNo = (int) getIntent().getExtras().getInt("recNo");
             Log.d(TAG, "recNo = " + recNo);
 
-            new GetPassSlipDetail().execute();
+            new GetPassSlipDetail(user.get(SessionManager.KEY_DOMAIN) + urlPassSlipDetail).execute();
 
         } catch (Exception ex) {
             Log.e(TAG, "onCreate Error: " + ex.getMessage());
@@ -116,6 +111,12 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
      * Async task class to get json by making HTTP call
      */
     private class GetPassSlipDetail extends AsyncTask<Void, Void, Void> {
+
+        private String _url;
+
+        public GetPassSlipDetail(String _url) {
+            this._url = _url;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -136,8 +137,8 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
             HttpHandler sh = new HttpHandler();
 
             // Making a request to url and getting response
-            String NewUrl = urlPassSlipDetail + recNo;
-            String jsonStr = sh.makeServiceCall(NewUrl);
+            this._url = this._url + recNo;
+            String jsonStr = sh.makeServiceCall(this._url);
 
             if (jsonStr != null) {
                 try {
@@ -220,11 +221,11 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
      */
     private class GetPassSlipApproval extends AsyncTask<Void, Void, Void> {
 
-        private String urlPassSlipApproval;
+        private String _url;
         private int approvalResult;
 
-        public GetPassSlipApproval(String url) {
-            this.urlPassSlipApproval = url;
+        public GetPassSlipApproval(String _url) {
+            this._url = _url;
         }
 
         @Override
@@ -246,7 +247,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
             HttpHandler sh = new HttpHandler();
 
             // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(this.urlPassSlipApproval);
+            String jsonStr = sh.makeServiceCall(this._url);
 
             if (jsonStr != null) {
                 try {

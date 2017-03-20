@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                         // Creating user login session
                         // For testing i am stroing name, email as follow
                         // Use user real data
-                        session.createLoginSession("ED18009500558275C9F2", "Elerita delos Reyes");
+                        session.createLoginSession("CD28789107DB9601469D", "DELGADO, CHARLITA   Y.", "http://172.16.0.81/");
 
                         Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
 

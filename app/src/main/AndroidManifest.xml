@@ -26,18 +26,44 @@
             android:name=".PassSlipActivity"
             android:label="Pass Slips For Approval"
             android:parentActivityName=".MainActivity">
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".PassSlipApplicationDetailActivity"
-            android:parentActivityName=".PassSlipActivity"
-            android:label="Pass Slip Detail">
+        <activity
+            android:name=".PassSlipApplicationDetailActivity"
+            android:label="Pass Slip Detail"
+            android:parentActivityName=".PassSlipActivity">
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" /></activity>
+                android:value=".PassSlipActivity" />
+        </activity>
+
+        <activity
+            android:name=".PTLOSActivity"
+            android:label="PTLOS For Approval"
+            android:parentActivityName=".MainActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".PTLOSApplicationDetailActivity"
+            android:label="PTLOS Detail"
+            android:parentActivityName=".PTLOSActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PTLOSActivity" />
+        </activity>
     </application>
 
 </manifest>

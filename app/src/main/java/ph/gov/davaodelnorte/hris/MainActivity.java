@@ -1,6 +1,8 @@
 package ph.gov.davaodelnorte.hris;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,7 +36,7 @@ import helper.SwipeListAdapter;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     private String TAG = MainActivity.class.getSimpleName();
-    final String URL = "http://172.16.0.81/hris/Toolbox/GetAllApplications?approvingEIC=";
+    private String URL = "hris/Toolbox/GetAllApplications?approvingEIC=";
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
@@ -45,63 +47,51 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     HashMap<String, String> user;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Session class instance
-        session = new SessionManager(getApplicationContext());
-        session.checkLogin();
-        user = session.getUserDetails();
-
-        listView = (ListView) findViewById(R.id.listView);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-
-        menuList = new ArrayList<>();
-        adapter = new SwipeListAdapter(this, menuList);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
-
+    protected void onStart() {
+        super.onStart();
         swipeRefreshLayout.setOnRefreshListener(this);
-
-        /**
-         * Showing Swipe Refresh animation on activity create
-         * As animation won't start on onCreate, post runnable is used
-         */
-        swipeRefreshLayout.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        swipeRefreshLayout.setRefreshing(true);
-
-                                        fetchMenus(user.get(SessionManager.KEY_EIC));
-                                    }
-                                }
-        );
-        // displaying user data
-        /*lblName.setText(name);
-        lblEmail.setText(eic);*/
-        /*
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.NOUGAT) {
-            // displaying user data
-            lblName.setText(Html.fromHtml("Name: <b>" + name + "</b>", Html.FROM_HTML_MODE_COMPACT));
-            lblEmail.setText(Html.fromHtml("Email: <b>" + email + "</b>", Html.FROM_HTML_MODE_COMPACT));
-        }
-        */
-        /**
-         * Logout button click event
-         * */
-        /*btnLogout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                // Clear the session data
-                // This will clear all session data and
-                // redirect user to LoginActivity
-                session.logoutUser();
-            }
-        });*/
+        fetchMenus(user.get(SessionManager.KEY_EIC));
     }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        try {
 
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+            // Session class instance
+            session = new SessionManager(getApplicationContext());
+            session.checkLogin();
+            user = session.getUserDetails();
+
+            listView = (ListView) findViewById(R.id.listView);
+            swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
+            menuList = new ArrayList<>();
+            adapter = new SwipeListAdapter(this, menuList);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
+
+            //swipeRefreshLayout.setOnRefreshListener(this);
+
+            /**
+             * Showing Swipe Refresh animation on activity create
+             * As animation won't start on onCreate, post runnable is used
+             */
+            /*swipeRefreshLayout.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            swipeRefreshLayout.setRefreshing(true);
+
+                                            fetchMenus(user.get(SessionManager.KEY_EIC));
+                                        }
+                                    }
+            );*/
+        } catch (Exception ex) {
+            Log.e(TAG, "ERROR: " + ex.getMessage());
+        }
+
+    }
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -109,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -123,77 +112,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 return super.onOptionsItemSelected(item);
         }
     }
-
     @Override
     public void onRefresh() {
         fetchMenus(user.get(SessionManager.KEY_EIC));
     }
-
-    /**
-     * Fetching movies json by making http call
-     */
-    private void fetchMenus(String approvingEIC) {
-
-        // showing refresh animation before making http call
-        swipeRefreshLayout.setRefreshing(true);
-
-        // appending offset to url
-        String url = URL + approvingEIC;
-
-        // Volley's json array request object
-        JsonArrayRequest req = new JsonArrayRequest(url,
-            new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    Log.d(TAG, response.toString());
-
-                    if (response.length() > 0) {
-                        // clear the list
-                        menuList.clear();
-
-                        // looping through json and adding to movies list
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject menuObj = response.getJSONObject(i);
-
-                                int id = menuObj.getInt("Id");
-                                String title = menuObj.getString("Title");
-                                String iconUrl = menuObj.getString("IconUrl");
-                                int totalApplications = menuObj.getInt("TotalApplications");
-
-                                Menu m = new Menu(id, title, iconUrl, totalApplications);
-
-                                menuList.add(0, m);
-
-                            } catch (JSONException e) {
-                                Log.e(TAG, "JSON Parsing error: " + e.getMessage());
-                            }
-                        }
-
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    // stopping swipe refresh
-                    swipeRefreshLayout.setRefreshing(false);
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "Server Error: " + error.getMessage());
-
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    // stopping swipe refresh
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-        );
-
-        // Adding request to request queue
-        MyApplication.getInstance().addToRequestQueue(req);
-    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         try {
@@ -202,8 +124,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             Menu m = (Menu) r;
             switch (m.Title) {
                 case "PASS SLIP":
-                    Intent intent = new Intent(this, PassSlipActivity.class);
-                    startActivity(intent);
+                    Intent intentPassSlip = new Intent(this, PassSlipActivity.class);
+                    startActivity(intentPassSlip);
+                    break;
+                case "PTLOS":
+                    Intent intentPTLOS = new Intent(this, PTLOSActivity.class);
+                    startActivity(intentPTLOS);
                     break;
             }
             Log.d(TAG, "Menu Title: " + m.Title);
@@ -214,5 +140,75 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         } catch(Exception ex) {
             Log.e(TAG, "Error: " + ex.getMessage());
         }
+    }
+    /**
+     * Fetching movies json by making http call
+     */
+    private void fetchMenus(String approvingEIC) {
+
+        try {
+            // showing refresh animation before making http call
+            swipeRefreshLayout.setRefreshing(true);
+
+            // appending to url
+            String url = user.get(SessionManager.KEY_DOMAIN) + URL + approvingEIC;
+            Log.d(TAG, "Url: " + url);
+
+            // Volley's json array request object
+            JsonArrayRequest req = new JsonArrayRequest(url,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            Log.d(TAG, response.toString());
+
+                            if (response.length() > 0) {
+                                // clear the list
+                                menuList.clear();
+
+                                // looping through json and adding to movies list
+                                for (int i = 0; i < response.length(); i++) {
+                                    try {
+                                        JSONObject menuObj = response.getJSONObject(i);
+
+                                        int id = menuObj.getInt("Id");
+                                        String title = menuObj.getString("Title");
+                                        String iconUrl = menuObj.getString("IconUrl");
+                                        int totalApplications = menuObj.getInt("TotalApplications");
+
+                                        Menu m = new Menu(id, title, iconUrl, totalApplications);
+
+                                        menuList.add(0, m);
+
+                                    } catch (JSONException e) {
+                                        Log.e(TAG, "JSON Parsing error: " + e.getMessage());
+                                    }
+                                }
+
+                                adapter.notifyDataSetChanged();
+                            }
+
+                            // stopping swipe refresh
+                            swipeRefreshLayout.setRefreshing(false);
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "Server Error: " + error.getMessage());
+
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    // stopping swipe refresh
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+            );
+
+            // Adding request to request queue
+            MyApplication.getInstance().addToRequestQueue(req);
+        } catch (Exception ex) {
+            Log.e(TAG, "ERROR: " + ex.getMessage());
+        }
+
     }
 }

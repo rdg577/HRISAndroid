@@ -19,10 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public class PassSlipActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -33,12 +30,13 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
     private ListView lv;
 
     // URL to get JSON
-    private static String url = "http://172.16.0.81/hris/Toolbox/PassSlipsPending?approvingEIC=";
+    final String url = "hris/Toolbox/PassSlipsPending?approvingEIC=";
 
     ArrayList<HashMap<String, String>> _list;
 
     // Session Manager Class
     SessionManager session;
+    HashMap<String, String> user;
 
     private static String approvingEIC;
 
@@ -58,7 +56,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
         session.checkLogin();
 
         // get user data from session
-        HashMap<String, String> user = session.getUserDetails();
+        user = session.getUserDetails();
 
         // name
         String name = user.get(SessionManager.KEY_NAME);
@@ -72,7 +70,9 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
         lv = (ListView) findViewById(R.id.listPassSlips);
         lv.setOnItemClickListener(this);
 
-        new GetPassSlipApplications(this.url).execute();
+        // domain
+        // this.url = user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC;
+        new GetPassSlipApplications(user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC).execute();
 
     }
 
@@ -133,7 +133,6 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
             HttpHandler httpHandler = new HttpHandler();
 
             // Making a request to url and getting response
-            this._url = this._url + approvingEIC;
             String jsonStr = httpHandler.makeServiceCall(this._url);
 
             if (jsonStr != null) {
@@ -213,7 +212,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
                     ,_list
                     ,R.layout.list_item_pass_slips
                     ,new String[]{"name", "destination", "time_out", "recNo"}
-                    ,new int[]{R.id.name, R.id.destination, R.id.time_out, R.id.recNo}
+                    ,new int[]{R.id.name, R.id.destination, R.id.date_applied, R.id.recNo}
             );
 
             lv.setAdapter(adapter);
