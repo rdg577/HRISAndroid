@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
-
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
@@ -96,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_main_actions, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -132,11 +130,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     startActivity(intentPTLOS);
                     break;
             }
-            Log.d(TAG, "Menu Title: " + m.Title);
-//            String menuTitle =
-//            // forward the recNo to the next activity
-//            Intent i = new Intent(this, PassSlipApplicationDetailActivity.class);
-//            startActivity(i);
         } catch(Exception ex) {
             Log.e(TAG, "Error: " + ex.getMessage());
         }
@@ -145,26 +138,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      * Fetching movies json by making http call
      */
     private void fetchMenus(String approvingEIC) {
-
         try {
             // showing refresh animation before making http call
             swipeRefreshLayout.setRefreshing(true);
-
             // appending to url
             String url = user.get(SessionManager.KEY_DOMAIN) + URL + approvingEIC;
-            Log.d(TAG, "Url: " + url);
-
             // Volley's json array request object
             JsonArrayRequest req = new JsonArrayRequest(url,
                     new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
-                            Log.d(TAG, response.toString());
-
                             if (response.length() > 0) {
                                 // clear the list
                                 menuList.clear();
-
                                 // looping through json and adding to movies list
                                 for (int i = 0; i < response.length(); i++) {
                                     try {
@@ -178,37 +164,29 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                                         Menu m = new Menu(id, title, iconUrl, totalApplications);
 
                                         menuList.add(0, m);
-
                                     } catch (JSONException e) {
                                         Log.e(TAG, "JSON Parsing error: " + e.getMessage());
                                     }
                                 }
-
                                 adapter.notifyDataSetChanged();
                             }
-
                             // stopping swipe refresh
                             swipeRefreshLayout.setRefreshing(false);
-
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e(TAG, "Server Error: " + error.getMessage());
-
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-
                     // stopping swipe refresh
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }
             );
-
             // Adding request to request queue
             MyApplication.getInstance().addToRequestQueue(req);
         } catch (Exception ex) {
             Log.e(TAG, "ERROR: " + ex.getMessage());
         }
-
     }
 }

@@ -9,192 +9,202 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="16dp"
         android:orientation="vertical"
         android:visibility="visible">
 
         <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Date Applied:"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/textView7"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="Date Applied:"
+            android:textColor="@color/hris_colorPrimaryDark"
+            app:layout_constraintLeft_toRightOf="@+id/imageClock"
+            app:layout_constraintTop_toTopOf="@+id/imageClock" />
 
-    <TextView
-        android:id="@+id/date_applied"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-        app:layout_constraintLeft_toRightOf="@+id/textView" />
+        <TextView
+            android:id="@+id/date_applied"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            android:textColor="@color/hris_colorPrimaryDark"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
+            app:layout_constraintLeft_toRightOf="@+id/textView7" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Name:"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:layout_marginStart="16dp" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            android:textColor="@color/hris_colorPrimaryDark"
+            app:layout_constraintLeft_toRightOf="@+id/imageMan"
+            app:layout_constraintTop_toTopOf="@+id/imageMan" />
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
-        app:layout_constraintLeft_toRightOf="@+id/textView7" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Destination:"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/destination"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="9dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Purpose:"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/destination"
-        android:layout_marginStart="16dp" />
+        <TextView
+            android:id="@+id/destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:text="TextView"
+            android:textColor="@color/hris_colorPrimaryDark"
+            app:layout_constraintLeft_toRightOf="@+id/imageLocation"
+            app:layout_constraintRight_toRightOf="@+id/purpose"
+            app:layout_constraintTop_toTopOf="@+id/imageLocation" />
 
         <TextView
             android:id="@+id/purpose"
-            android:layout_width="288dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
             android:text="TextView"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13"
-            android:layout_marginStart="16dp" />
+            android:textColor="@color/hris_colorPrimaryDark"
+            app:layout_constraintLeft_toRightOf="@+id/imageBulb"
+            app:layout_constraintRight_toRightOf="@+id/btnApprove"
+            app:layout_constraintTop_toTopOf="@+id/imageBulb" />
 
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Leave at:"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/purpose"
-        android:layout_marginStart="16dp" />
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="8dp"
+            android:text="Departure date:"
+            android:textColor="@color/hris_colorPrimary"
+            app:layout_constraintLeft_toLeftOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-    <TextView
-        android:id="@+id/departure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
-        app:layout_constraintLeft_toRightOf="@+id/textView15"
-        android:layout_marginStart="8dp" />
+        <TextView
+            android:id="@+id/departure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            android:textColor="@color/hris_colorPrimary"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
+            app:layout_constraintLeft_toRightOf="@+id/textView15" />
 
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Arrive at:"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15"
-        android:layout_marginStart="16dp" />
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:text="Arrival date:"
+            android:textColor="@color/hris_colorPrimary"
+            app:layout_constraintLeft_toLeftOf="@+id/textView15"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-    <TextView
-        android:id="@+id/arrival"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
-        app:layout_constraintLeft_toRightOf="@+id/textView18"
-        android:layout_marginStart="8dp" />
+        <TextView
+            android:id="@+id/arrival"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            android:textColor="@color/hris_colorPrimary"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
+            app:layout_constraintLeft_toRightOf="@+id/textView18" />
 
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Return at:"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18"
-        android:layout_marginStart="16dp" />
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:text="Official Return:"
+            android:textColor="@color/hris_colorPrimary"
+            app:layout_constraintLeft_toLeftOf="@+id/textView18"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
-    <TextView
-        android:id="@+id/official_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView22"
-        app:layout_constraintLeft_toRightOf="@+id/textView22"
-        android:layout_marginStart="8dp" />
+        <TextView
+            android:id="@+id/official_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            android:textColor="@color/hris_colorPrimary"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView22"
+            app:layout_constraintLeft_toRightOf="@+id/textView22" />
 
         <Button
             android:id="@+id/btnApprove"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="19dp"
+            android:background="@drawable/rounded_button_success"
             android:text="Approve"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/purpose" />
 
         <Button
             android:id="@+id/btnDisapprove"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/rounded_button_default"
             android:text="Disapprove"
-            app:layout_constraintLeft_toRightOf="@+id/btnApprove"
-            app:layout_constraintBaseline_toBaselineOf="@+id/btnApprove"/>
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/btnApprove"
+            app:layout_constraintRight_toRightOf="@+id/btnApprove"
+            app:layout_constraintTop_toBottomOf="@+id/btnApprove"
+            android:layout_marginTop="8dp" />
+
+        <ImageView
+            android:id="@+id/imageMan"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:srcCompat="@drawable/ic_user_man"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+        <ImageView
+            android:id="@+id/imageLocation"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/imageMan"
+            app:layout_constraintTop_toBottomOf="@+id/imageMan"
+            app:srcCompat="@drawable/ic_location" />
+
+        <ImageView
+            android:id="@+id/imageBulb"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageLocation"
+            app:srcCompat="@drawable/ic_lightbulb"
+            app:layout_constraintLeft_toLeftOf="@+id/imageLocation" />
+
+        <ImageView
+            android:id="@+id/imageClock"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/ic_clock"
+            app:layout_constraintLeft_toLeftOf="@+id/imageBulb"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="0dp" />
 
     </android.support.constraint.ConstraintLayout>
 

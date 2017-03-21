@@ -56,10 +56,6 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
         session.checkLogin();
         // get user data from session
         user = session.getUserDetails();
-        // name
-        String name = user.get(SessionManager.KEY_NAME);
-        TextView tvApprovingOfficer = (TextView) findViewById(R.id.tvApprovingOfficer);
-        tvApprovingOfficer.setText(Html.fromHtml("Approving Officer: <b>" + name.toString() + "</b>"));
         // approvingEIC
         approvingEIC = user.get(SessionManager.KEY_EIC);
 
@@ -88,23 +84,18 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void fetchPTLOSApplications(String approvingEIC) {
-
         try {
             // appending to url
             String url = user.get(SessionManager.KEY_DOMAIN) + this.url + approvingEIC;
-            Log.d(TAG, "Url: " + url);
-
             // Volley's json array request object
             JsonObjectRequest req = new JsonObjectRequest(url, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            // Log.d(TAG, "Response: " + response);
                             try {
                                 JSONArray items = response.getJSONArray("ptlos_applications");
                                 for (int i = 0; i < items.length(); i++) {
                                     JSONObject j = items.getJSONObject(i);
-                                    // Log.d(TAG, "recNo = " + j.get("recNo"));
 
                                     HashMap<String, String> entry = new HashMap<>();
                                     entry.put("name", j.getString("name"));

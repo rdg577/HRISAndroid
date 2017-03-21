@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="HRIS" parent="AppTheme">
+        <item name="android:navigationBarColor">@color/hris_green</item>
+        <item name="android:statusBarColor">@color/hris_green</item>
+        <item name="colorPrimary">@color/hris_colorPrimary</item>
+        <item name="colorAccent">@color/hris_colorAccent</item>
+        <item name="android:colorBackground">@color/hris_background</item>
+        <item name="colorPrimaryDark">@color/hris_colorPrimaryDark</item>
+    </style>
+</resources>

@@ -4,6 +4,12 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#ff4081</color>
     <color name="colorHRISGreen">#4caf50</color>
+    <color name="hris_green">#4caf50</color>
+    <color name="hris_colorPrimary">#42a045</color>
+    <color name="hris_background">#fafafa</color>
+    <color name="hris_colorAccent">#00c853</color>
+    <color name="hris_colorPrimaryDark">#19571c</color>
+
     <string-array name="movie_serial_bg">
         <item>#24c6d5</item>
         <item>#57dd86</item>
