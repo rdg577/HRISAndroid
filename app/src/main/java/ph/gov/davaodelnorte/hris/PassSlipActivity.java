@@ -60,8 +60,8 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
 
         // name
         String name = user.get(SessionManager.KEY_NAME);
-        TextView tvApprovingOfficer = (TextView) findViewById(R.id.tvApprovingOfficer);
-        tvApprovingOfficer.setText(Html.fromHtml("Approving Officer: <b>" + name.toString() + "</b>"));
+        /*TextView tvApprovingOfficer = (TextView) findViewById(R.id.tvApprovingOfficer);
+        tvApprovingOfficer.setText(Html.fromHtml("Approving Officer: <b>" + name.toString() + "</b>"));*/
 
         // approvingEIC
         approvingEIC = user.get(SessionManager.KEY_EIC);

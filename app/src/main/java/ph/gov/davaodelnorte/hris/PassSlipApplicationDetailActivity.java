@@ -24,6 +24,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
     // URL to get JSON
     final String urlPassSlipDetail = "hris/Toolbox/PassSlipDetail?id=";
+
     private static String urlPassSlipApproval = "hris/Toolbox/PassSlipApproval?";
 
     /*ArrayList<HashMap<String, String>> _list;*/
@@ -68,7 +69,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
             name = (TextView) findViewById(R.id.name);
             destination=(TextView) findViewById(R.id.destination);
             purpose = (TextView) findViewById(R.id.purpose);
-            time_out = (TextView) findViewById(R.id.date_applied);
+            time_out = (TextView) findViewById(R.id.time_out);
             isOfficial = (RadioButton) findViewById(R.id.isOfficial);
             isPersonal = (RadioButton) findViewById(R.id.isPersonal);
 
@@ -146,6 +147,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
                     // Getting JSON Array node
                     JSONArray items = jsonObj.getJSONArray("pass_slip_detail");
+                    /*Log.d(TAG, "pass_slip_detail = " + items.toString());*/
 
                     // looping through all items
                     for (int i = 0; i < items.length(); i++) {

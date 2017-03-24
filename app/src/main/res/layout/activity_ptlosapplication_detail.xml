@@ -21,7 +21,8 @@
             android:text="Date Applied:"
             android:textColor="@color/hris_colorPrimaryDark"
             app:layout_constraintLeft_toRightOf="@+id/imageClock"
-            app:layout_constraintTop_toTopOf="@+id/imageClock" />
+            app:layout_constraintTop_toTopOf="@+id/imageClock"
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/date_applied"
@@ -29,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:text="."
             android:textColor="@color/hris_colorPrimaryDark"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
             app:layout_constraintLeft_toRightOf="@+id/textView7" />
@@ -40,10 +41,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:text="."
             android:textColor="@color/hris_colorPrimaryDark"
             app:layout_constraintLeft_toRightOf="@+id/imageMan"
-            app:layout_constraintTop_toTopOf="@+id/imageMan" />
+            app:layout_constraintTop_toTopOf="@+id/imageMan"
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/destination"
@@ -52,8 +54,8 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="0dp"
-            android:text="TextView"
+            android:layout_marginTop="8dp"
+            android:text="."
             android:textColor="@color/hris_colorPrimaryDark"
             app:layout_constraintLeft_toRightOf="@+id/imageLocation"
             app:layout_constraintRight_toRightOf="@+id/purpose"
@@ -66,12 +68,13 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="0dp"
-            android:text="TextView"
+            android:layout_marginTop="8dp"
+            android:text="."
             android:textColor="@color/hris_colorPrimaryDark"
             app:layout_constraintLeft_toRightOf="@+id/imageBulb"
             app:layout_constraintRight_toRightOf="@+id/btnApprove"
-            app:layout_constraintTop_toTopOf="@+id/imageBulb" />
+            app:layout_constraintTop_toTopOf="@+id/imageBulb"
+            app:layout_constraintHorizontal_bias="0.0" />
 
         <TextView
             android:id="@+id/textView15"
@@ -90,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:text="."
             android:textColor="@color/hris_colorPrimary"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
             app:layout_constraintLeft_toRightOf="@+id/textView15" />
@@ -112,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:text="."
             android:textColor="@color/hris_colorPrimary"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
             app:layout_constraintLeft_toRightOf="@+id/textView18" />
@@ -134,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:text="."
             android:textColor="@color/hris_colorPrimary"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView22"
             app:layout_constraintLeft_toRightOf="@+id/textView22" />
@@ -192,9 +195,9 @@
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/imageLocation"
             app:layout_constraintTop_toBottomOf="@+id/imageLocation"
-            app:srcCompat="@drawable/ic_lightbulb"
-            app:layout_constraintLeft_toLeftOf="@+id/imageLocation" />
+            app:srcCompat="@drawable/ic_lightbulb" />
 
         <ImageView
             android:id="@+id/imageClock"
