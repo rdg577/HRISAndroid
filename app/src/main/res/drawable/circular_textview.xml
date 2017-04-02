@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector>
+    <item xmlns:android="http://schemas.android.com/apk/res/android">
+        <shape>
+            <solid android:color="@color/hris_colorAccent" />
+            <corners
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp"
+                android:bottomLeftRadius="30dp"
+                android:bottomRightRadius="30dp"
+                />
+            <stroke
+                android:color="@color/hris_colorPrimaryDark"
+                android:width="2dp" />
+        </shape>
+    </item>
+</selector>

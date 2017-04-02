@@ -20,15 +20,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PassSlipActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-
-    private String TAG = PassSlipActivity.class.getSimpleName();
+public class JustificationActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private String TAG = JustificationActivity.class.getSimpleName();
 
     private ProgressDialog pDialog;
     private ListView lv;
 
     // URL to get JSON
-    final String url = "WebService/Toolbox/PassSlipsPending?approvingEIC=";
+    final String url = "WebService/Toolbox/JustificationPending?approvingEIC=";
 
     ArrayList<HashMap<String, String>> _list;
 
@@ -41,7 +40,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pass_slip);
+        setContentView(R.layout.activity_justification);
 
         // Session class instance
         session = new SessionManager(getApplicationContext());
@@ -58,19 +57,17 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
 
         // name
         String name = user.get(SessionManager.KEY_NAME);
-        /*TextView tvApprovingOfficer = (TextView) findViewById(R.id.tvApprovingOfficer);
-        tvApprovingOfficer.setText(Html.fromHtml("Approving Officer: <b>" + name.toString() + "</b>"));*/
 
         // approvingEIC
         approvingEIC = user.get(SessionManager.KEY_EIC);
 
         _list = new ArrayList<>();
-        lv = (ListView) findViewById(R.id.listPassSlips);
+        lv = (ListView) findViewById(R.id.listJustification);
         lv.setOnItemClickListener(this);
 
         // domain
         // this.url = user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC;
-        new GetPassSlipApplications(user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC).execute();
+        new GetJustificationApplications(user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC).execute();
 
     }
 
@@ -80,24 +77,17 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
             // get the object being selected
             Object r = parent.getItemAtPosition(position);
             HashMap<String, String> item = (HashMap<String, String>) r;
-            // extract the record number of the pass slip application
-            int recNo = Integer.parseInt(item.get("recNo"));
-            // forward the recNo to the next activity
-            Intent i = new Intent(this, PassSlipApplicationDetailActivity.class);
-            i.putExtra("recNo", recNo);
+
+            Intent i = new Intent(this, JustificationPerMonthActivity.class);
+            i.putExtra("EIC", item.get("EIC"));
+            i.putExtra("name", item.get("name"));
             startActivity(i);
         } catch(Exception ex) {
             Log.e(TAG, "Error: " + ex.getMessage());
         }
     }
 
-    // ****************************************************************
-    //  Downloading and Parsing the JSON
-    // ****************************************************************
-    /**
-     * Async task class to get json by making HTTP call
-     */
-    private class GetPassSlipApplications extends AsyncTask<Void, Void, Void> {
+    private class GetJustificationApplications extends AsyncTask<Void, Void, Void> {
 
         private String _url;
         private int _count;
@@ -110,7 +100,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
             this._count = _count;
         }
 
-        public GetPassSlipApplications(String u) {
+        public GetJustificationApplications(String u) {
             this._url = u;
             this.set_count(0);
         }
@@ -119,7 +109,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-            pDialog = new ProgressDialog(PassSlipActivity.this);
+            pDialog = new ProgressDialog(JustificationActivity.this);
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -138,30 +128,31 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
-                    JSONArray items = jsonObj.getJSONArray("pass_slips");
+                    JSONArray items = jsonObj.getJSONArray("justifications");
 
                     // counted number of items
                     this.set_count(items.length());
+                    Log.d(TAG, "item.length=" + items.length());
 
                     // looping through all items
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject c = items.getJSONObject(i);
 
-                        String eic = c.getString("EIC");
-                        String name = c.getString("fullnameFirst");
-                        String time_out = c.getString("timeOut");
-                        int recNo = c.getInt("recNo");
-                        String destination = c.getString("destination");
+                        Log.d(TAG, "c.length=" + c.length());
+                        Log.d(TAG, "c.getString(\"Key\")=" + c.getString("Key"));
+
+                        String EIC = ((JSONObject) c.getJSONObject("Key")).getString("EIC");
+                        String name = ((JSONObject) c.getJSONObject("Key")).getString("fullnameFirst");
+                        int total_justifications = ((JSONObject) c.getJSONObject("Key")).getInt("total");
 
                         // tmp hash map for single entry
                         HashMap<String, String> entry = new HashMap<>();
 
                         // adding each child node to HashMap key => value
                         entry.put("name", name);
-                        entry.put("eic", eic);
-                        entry.put("time_out", time_out);
-                        entry.put("recNo", String.valueOf(recNo));
-                        entry.put("destination", destination);
+                        entry.put("EIC", EIC);
+                        entry.put("total_justifications", "Total: " + String.valueOf(total_justifications));
+
 
                         // adding entry to entry list
                         _list.add(entry);
@@ -206,11 +197,11 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
              * Updating parsed JSON data into ListView
              * */
             ListAdapter adapter = new SimpleAdapter(
-                    PassSlipActivity.this
+                    JustificationActivity.this
                     ,_list
-                    ,R.layout.list_item_pass_slips
-                    ,new String[]{"name", "destination", "time_out", "recNo"}
-                    ,new int[]{R.id.name, R.id.total_justifications, R.id.date, R.id.recNo}
+                    ,R.layout.list_item_justification
+                    ,new String[]{"name", "total_justifications", "EIC"}
+                    ,new int[]{R.id.name, R.id.total_justifications, R.id.EIC}
             );
 
             lv.setAdapter(adapter);

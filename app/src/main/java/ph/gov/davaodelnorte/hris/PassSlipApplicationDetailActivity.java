@@ -23,9 +23,9 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    final String urlPassSlipDetail = "hris/Toolbox/PassSlipDetail?id=";
+    final String urlPassSlipDetail = "WebService/Toolbox/PassSlipDetail?id=";
 
-    private static String urlPassSlipApproval = "hris/Toolbox/PassSlipApproval?";
+    private static String urlPassSlipApproval = "WebService/Toolbox/PassSlipApproval?";
 
     /*ArrayList<HashMap<String, String>> _list;*/
 
@@ -67,8 +67,8 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
         try {
             // fields
             name = (TextView) findViewById(R.id.name);
-            destination=(TextView) findViewById(R.id.destination);
-            purpose = (TextView) findViewById(R.id.purpose);
+            destination=(TextView) findViewById(R.id.total_justifications);
+            purpose = (TextView) findViewById(R.id.reason);
             time_out = (TextView) findViewById(R.id.time_out);
             isOfficial = (RadioButton) findViewById(R.id.isOfficial);
             isPersonal = (RadioButton) findViewById(R.id.isPersonal);

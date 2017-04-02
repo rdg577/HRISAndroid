@@ -42,7 +42,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PassSlipActivity" />
         </activity>
-
         <activity
             android:name=".PTLOSActivity"
             android:label="PTLOS For Approval"
@@ -53,7 +52,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".PTLOSApplicationDetailActivity"
             android:label="PTLOS Detail"
@@ -63,6 +61,37 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PTLOSActivity" />
+        </activity>
+        <activity
+            android:name=".JustificationActivity"
+            android:label="Justifications For Approval"
+            android:parentActivityName=".MainActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".JustificationPerMonthActivity"
+            android:label="Justifications For Approval"
+            android:parentActivityName=".JustificationActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".JustificationActivity" />
+        </activity>
+        <activity
+            android:name=".JustificationDetailActivity"
+            android:label="Justification Detail"
+            android:parentActivityName=".JustificationActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".JustificationActivity" />
         </activity>
     </application>
 

@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.RadioButton;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +28,8 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    final String urlPTLOSDetail = "hris/Toolbox/PTLOSDetail?id=";
-    final String urlPTLOSApproval = "hris/Toolbox/PTLOSApproval?";
+    final String urlPTLOSDetail = "WebService/Toolbox/PTLOSDetail?id=";
+    final String urlPTLOSApproval = "WebService/Toolbox/PTLOSApproval?";
 
     // Session Manager Class
     SessionManager session;
@@ -58,9 +55,9 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
             user = session.getUserDetails();
             // fields
             name = (TextView) findViewById(R.id.name);
-            destination = (TextView) findViewById(R.id.destination);
-            purpose = (TextView) findViewById(R.id.purpose);
-            date_applied = (TextView) findViewById(R.id.date_applied);
+            destination = (TextView) findViewById(R.id.total_justifications);
+            purpose = (TextView) findViewById(R.id.reason);
+            date_applied = (TextView) findViewById(R.id.date);
             departure = (TextView) findViewById(R.id.departure);
             arrival = (TextView) findViewById(R.id.arrival);
             official_return = (TextView) findViewById(R.id.official_return);
@@ -178,7 +175,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
             // Adding request to request queue
             MyApplication.getInstance().addToRequestQueue(req);
         } catch (Exception ex) {
-            Log.e(TAG, "fetchPTLOSDetail ERROR: " + ex.getMessage());
+            Log.e(TAG, "fetchPTLOSApproval ERROR: " + ex.getMessage());
         }
 
     }

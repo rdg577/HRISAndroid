@@ -4,20 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
@@ -26,10 +21,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import app.MyApplication;
-import helper.Menu;
 
 public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private String TAG = PTLOSActivity.class.getSimpleName();
@@ -38,7 +31,7 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
     private ListView lv;
 
     // URL to get JSON
-    final String url = "hris/Toolbox/GetPTLOSApplications?approvingEIC=";
+    final String url = "WebService/Toolbox/GetPTLOSApplications?approvingEIC=";
 
     ArrayList<HashMap<String, String>> _list;
 
@@ -111,7 +104,7 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
                                         ,_list
                                         ,R.layout.list_item_ptlos
                                         ,new String[]{"name", "destination", "date_applied", "recNo"}
-                                        ,new int[]{R.id.name, R.id.destination, R.id.date_applied, R.id.recNo}
+                                        ,new int[]{R.id.name, R.id.total_justifications, R.id.date, R.id.recNo}
                                 );
 
                                 lv.setAdapter(adapter);

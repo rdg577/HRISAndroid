@@ -33,7 +33,7 @@ import helper.Menu;
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = LoginActivity.class.getSimpleName();
-    private final String URL = "http://www.davaodelnorte.gov.ph:333/WebService/";
+    private final String URL = "http://www.davaodelnorte.gov.ph:333/";
 
     private boolean login_flag = false;
 
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(username.trim().length() > 0 && password.trim().length() > 0){
                     try {
                         // appending to url
-                        String url = URL + "Account/Login";
+                        String url = URL + "WebService/Account/Login";
 
                         Map<String, String> params = new HashMap<>();
                         params.put("username", username);
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     JSONObject j = items.getJSONObject(i);
                                                     // Creating user login session
                                                     /*session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);*/
-                                                    session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.0.124/");
+                                                    session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.130.49/");
                                                 }
 
                                                 Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
