@@ -162,7 +162,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
                     }
                 } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+//                    Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -175,7 +175,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
                 }
             } else {
-                Log.e(TAG, "Couldn't get json from server.");
+//                Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -260,10 +260,10 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
                     this.approvalResult = Integer.parseInt(items.getString("statusId"));
 
-                    Log.d(TAG, "Approval result: " + items.toString());
+//                    Log.d(TAG, "Approval result: " + items.toString());
 
                 } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+//                    Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -276,7 +276,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
                 }
             } else {
-                Log.e(TAG, "Couldn't get json from server.");
+//                Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

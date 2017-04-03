@@ -167,7 +167,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
                         _list.add(entry);
                     }
                 } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+//                    Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -180,7 +180,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
 
                 }
             } else {
-                Log.e(TAG, "Couldn't get json from server.");
+//                Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

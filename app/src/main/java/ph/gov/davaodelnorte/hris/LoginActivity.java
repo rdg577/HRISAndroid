@@ -91,23 +91,23 @@ public class LoginActivity extends AppCompatActivity {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Log.d(TAG, "Response = " + response);
+//                                        Log.d(TAG, "Response = " + response);
                                         String dataType = "";
                                         try {
                                             dataType = response.get("data").getClass().getSimpleName();
-                                            Log.d(TAG, "dataType=" + dataType);
+//                                            Log.d(TAG, "dataType=" + dataType);
                                             if (dataType.matches("Integer")) {
-                                                Log.d(TAG, "If Integer=false");
+//                                                Log.d(TAG, "If Integer=false");
                                                 alert.showAlertDialog(LoginActivity.this, "Login failed..", "Username/Password is incorrect", false);
                                             } else if (dataType.matches("JSONArray")) {
-                                                Log.d(TAG, "If Integer=true");
+//                                                Log.d(TAG, "If Integer=true");
 
                                                 JSONArray items = response.getJSONArray("data");
                                                 for (int i = 0; i < items.length(); i++) {
                                                     JSONObject j = items.getJSONObject(i);
                                                     // Creating user login session
-                                                    /*session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);*/
-                                                    session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.130.49/");
+                                                    session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
+                                                    /*session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.130.49/");*/
                                                 }
 
                                                 Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
@@ -134,18 +134,6 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (Exception ex) {
                         Log.e(TAG, "ERROR: " + ex.getMessage());
                     }
-
-                    /*if(login(username.trim(), password.trim())==true){
-                        Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
-                        // Starting MainActivity
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(i);
-                        finish();
-
-                    }else{
-                        // username / password doesn't match
-                        alert.showAlertDialog(LoginActivity.this, "Login failed..", "Username/Password is incorrect", false);
-                    }*/
                 }else{
                     // user didn't entered username or password
                     // Show alert asking him to enter the details
@@ -171,25 +159,24 @@ public class LoginActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response = " + response);
+//                            Log.d(TAG, "Response = " + response);
                             String dataType = "";
                             try {
                                 dataType = response.get("data").getClass().getSimpleName();
-                                Log.d(TAG, "dataType=" + dataType);
+//                                Log.d(TAG, "dataType=" + dataType);
                                 if (dataType.matches("Integer")) {
-                                    Log.d(TAG, "If Integer=false");
+//                                    Log.d(TAG, "If Integer=false");
                                     login_flag = false;
                                 } else if (dataType.matches("JSONArray")) {
-
-                                    Log.d(TAG, "If Integer=true");
+//                                    Log.d(TAG, "If Integer=true");
                                     login_flag = true;
 
                                     JSONArray items = response.getJSONArray("data");
                                     for (int i = 0; i < items.length(); i++) {
                                         JSONObject j = items.getJSONObject(i);
                                         // Creating user login session
-                                        /*session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);*/
-                                        session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.0.124/");
+                                        session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
+                                        /*session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.0.124/");*/
                                     }
                                 }
                             } catch (JSONException e) {

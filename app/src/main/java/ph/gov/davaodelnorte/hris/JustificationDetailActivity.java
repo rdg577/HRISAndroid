@@ -99,10 +99,10 @@ public class JustificationDetailActivity extends AppCompatActivity {
             year = getIntent().getExtras().getInt("year");
             month_year = getIntent().getExtras().getString("month_year");
             period = getIntent().getExtras().getInt("period");
-            Log.d(TAG, "onCreate EIC = " + EIC);
-            Log.d(TAG, "onCreate approvingEIC = " + approvingEIC);
-            Log.d(TAG, "onCreate month = " + String.valueOf(month));
-            Log.d(TAG, "onCreate year = " + String.valueOf(year));
+//            Log.d(TAG, "onCreate EIC = " + EIC);
+//            Log.d(TAG, "onCreate approvingEIC = " + approvingEIC);
+//            Log.d(TAG, "onCreate month = " + String.valueOf(month));
+//            Log.d(TAG, "onCreate year = " + String.valueOf(year));
 
             fetchJustificationDetail(this.EIC, this.approvingEIC, this.month, this.year, this.period);
 
@@ -151,14 +151,14 @@ public class JustificationDetailActivity extends AppCompatActivity {
 
             // appending to url
             String url = user.get(SessionManager.KEY_DOMAIN) + this.urlDetail;
-            Log.d(TAG, "fetchDetail Url: " + url);
+//            Log.d(TAG, "fetchDetail Url: " + url);
 
             // Volley's json array request object
             JsonObjectRequest req = new JsonObjectRequest(url, parameters,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response);
+//                            Log.d(TAG, "Response: " + response);
                             try {
 
                                 // for justifications
@@ -234,7 +234,7 @@ public class JustificationDetailActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response);
+//                            Log.d(TAG, "Response: " + response);
                             try {
                                 JSONObject j = response.getJSONObject("justification_approval");
                                 if(j.getBoolean("has_error") == false) {

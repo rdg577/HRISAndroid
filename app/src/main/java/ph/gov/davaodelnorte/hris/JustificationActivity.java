@@ -132,7 +132,7 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
 
                     // counted number of items
                     this.set_count(items.length());
-                    Log.d(TAG, "item.length=" + items.length());
+//                    Log.d(TAG, "item.length=" + items.length());
 
                     // looping through all items
                     for (int i = 0; i < items.length(); i++) {
@@ -158,7 +158,7 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
                         _list.add(entry);
                     }
                 } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+//                    Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -171,7 +171,7 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
 
                 }
             } else {
-                Log.e(TAG, "Couldn't get json from server.");
+//                Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

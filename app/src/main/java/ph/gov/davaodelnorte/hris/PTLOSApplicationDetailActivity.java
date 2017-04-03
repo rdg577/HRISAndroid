@@ -81,7 +81,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
             );
 
             recNo = (int) getIntent().getExtras().getInt("recNo");
-            Log.d(TAG, "onCreate recNo = " + recNo);
+//            Log.d(TAG, "onCreate recNo = " + recNo);
 
             fetchPTLOSDetail(recNo);
 
@@ -95,7 +95,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
         try {
             // appending to url
             String url = user.get(SessionManager.KEY_DOMAIN) + this.urlPTLOSDetail + id;
-            Log.d(TAG, "fetchPTLOSDetail Url: " + url);
+//            Log.d(TAG, "fetchPTLOSDetail Url: " + url);
 
             // Volley's json array request object
             JsonObjectRequest req = new JsonObjectRequest(url, null,
@@ -106,8 +106,8 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                             try {
                                 JSONArray items = response.getJSONArray("ptlos_detail");
                                 JSONObject j = items.getJSONObject(0);      // zero(0) - only one item
-                                Log.d(TAG, j.toString());
-                                Log.d(TAG, "recNo = " + j.get("recNo"));
+//                                Log.d(TAG, j.toString());
+//                                Log.d(TAG, "recNo = " + j.get("recNo"));
                                 // display to fields
                                 date_applied.setText(j.getString("date_applied"));
                                 name.setText(j.getString("name"));
@@ -142,7 +142,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
         try {
             // appending to url
             String url = user.get(SessionManager.KEY_DOMAIN) + this.urlPTLOSApproval + "id=" + id + "&tag=" + tag;
-            Log.d(TAG, "fetchPTLOSApproval Url: " + url);
+//            Log.d(TAG, "fetchPTLOSApproval Url: " + url);
 
             // Volley's json array request object
             JsonObjectRequest req = new JsonObjectRequest(url, null,
