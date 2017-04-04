@@ -170,6 +170,19 @@
             app:layout_constraintTop_toBottomOf="@+id/btnApprove"
             android:layout_marginTop="8dp" />
 
+        <Button
+            android:id="@+id/btnReturn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_button_cancel"
+            android:text="Return"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/btnDisapprove"
+            app:layout_constraintRight_toRightOf="@+id/btnDisapprove"
+            app:layout_constraintTop_toBottomOf="@+id/btnDisapprove" />
         <ImageView
             android:id="@+id/imageMan"
             android:layout_width="30dp"

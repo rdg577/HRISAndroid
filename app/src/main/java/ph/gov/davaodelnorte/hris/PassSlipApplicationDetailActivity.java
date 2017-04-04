@@ -12,34 +12,39 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import app.MyApplication;
 
 public class PassSlipApplicationDetailActivity extends AppCompatActivity {
     private String TAG = PassSlipApplicationDetailActivity.class.getSimpleName();
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    final String urlPassSlipDetail = "WebService/Toolbox/PassSlipDetail?id=";
-
-    private static String urlPassSlipApproval = "WebService/Toolbox/PassSlipApproval?";
-
-    /*ArrayList<HashMap<String, String>> _list;*/
+    final String urlPassSlipDetail = "WebService/Toolbox/PassSlipDetail";
+    final String urlPassSlipApproval = "WebService/Toolbox/PassSlipApproval";
 
     PassSlip passSlip;
 
     // Session Manager Class
     SessionManager session;
+    HashMap<String, String> user;
 
     int recNo;
 
     // fields
     TextView name, destination, purpose, time_out;
     RadioButton isOfficial, isPersonal;
-    Button btnApprove, btnDisapprove;
+    Button btnApprove, btnDisapprove, btnCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +53,8 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
         // Session class instance
         session = new SessionManager(getApplicationContext());
-
-        /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
         session.checkLogin();
-
-        // get user data from session
-        HashMap<String, String> user = session.getUserDetails();
-        // domain
-        urlPassSlipApproval = user.get(SessionManager.KEY_DOMAIN) + urlPassSlipApproval;
-        // urlPassSlipDetail = user.get(SessionManager.KEY_DOMAIN) + urlPassSlipDetail;
+        user = session.getUserDetails();
 
         passSlip = new PassSlip();
 
@@ -73,44 +67,105 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
             isOfficial = (RadioButton) findViewById(R.id.isOfficial);
             isPersonal = (RadioButton) findViewById(R.id.isPersonal);
 
-            btnApprove = (Button) findViewById(R.id.buttonApprove);
+            btnApprove = (Button) findViewById(R.id.btnApprove);
             btnApprove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int approve = 1;
+                    int status = 1;
                     passSlip.set_isOfficial(isOfficial.isChecked()? 1: 2);
-                    String u = urlPassSlipApproval + "id=" + passSlip.get_recNo() + "&statusId=" + approve + "&isOfficial=" + passSlip.get_isOfficial();
-                    new GetPassSlipApproval(u).execute();
+                    getPassSlipApproval(passSlip.get_recNo(), status, passSlip.get_isOfficial());
                 }
             });
-            btnDisapprove = (Button) findViewById(R.id.buttonDisapprove);
+            btnDisapprove = (Button) findViewById(R.id.btnDisapprove);
             btnDisapprove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int approve = 2;
+                    int status = 2;
                     passSlip.set_isOfficial(isOfficial.isChecked()? 1: 2);
-                    String u = urlPassSlipApproval + "id=" + passSlip.get_recNo() + "&statusId=" + approve + "&isOfficial=" + passSlip.get_isOfficial();
-                    new GetPassSlipApproval(u).execute();
+                    getPassSlipApproval(passSlip.get_recNo(), status, passSlip.get_isOfficial());
+                }
+            });
+            btnCancel = (Button) findViewById(R.id.btnCancel);
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int status = 3;
+                    passSlip.set_isOfficial(isOfficial.isChecked()? 1: 2);
+                    getPassSlipApproval(passSlip.get_recNo(), status, passSlip.get_isOfficial());
                 }
             });
 
             recNo = (int) getIntent().getExtras().getInt("recNo");
             Log.d(TAG, "recNo = " + recNo);
 
-            new GetPassSlipDetail(user.get(SessionManager.KEY_DOMAIN) + urlPassSlipDetail).execute();
+            new GetPassSlipDetail(user.get(SessionManager.KEY_DOMAIN) + urlPassSlipDetail + "?id=" + recNo).execute();
 
         } catch (Exception ex) {
             Log.e(TAG, "onCreate Error: " + ex.getMessage());
         }
 
     }
+    private void getPassSlipApproval(int id, int statusId, int isOfficial) {
 
-    // ****************************************************************
-    //  Downloading and Parsing the JSON
-    // ****************************************************************
-    /**
-     * Async task class to get json by making HTTP call
-     */
+        try {
+            // appending to url
+            String url = user.get(SessionManager.KEY_DOMAIN) + urlPassSlipApproval;
+            Log.d(TAG, "url = " + url);
+
+            Map<String, String> params = new HashMap<>();
+            params.put("id", String.valueOf(id));
+            params.put("statusId", String.valueOf(statusId));
+            params.put("isOfficial", String.valueOf(isOfficial));
+            JSONObject parameters = new JSONObject(params);
+
+            // Volley's json array request object
+            JsonObjectRequest req = new JsonObjectRequest(url, parameters,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d(TAG, "Response: " + response);
+                            try {
+                                JSONObject j = response.getJSONObject("pass_slip_approval");
+
+                                Intent i = new Intent(getApplicationContext(), PassSlipActivity.class);
+                                startActivity(i);
+
+                                if(Integer.parseInt(j.getString("statusId")) == 1) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Pass Slip Approved!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }else if(Integer.parseInt(j.getString("statusId")) == 2) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Pass Slip Disapproved!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }else if(Integer.parseInt(j.getString("statusId")) == 3) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Pass Slip Cancelled!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG, "Response error: " + error.getMessage());
+                        }
+                    }
+            );
+
+            // Adding request to request queue
+            MyApplication.getInstance().addToRequestQueue(req);
+        } catch (Exception ex) {
+            Log.e(TAG, "getPassSlipApproval ERROR: " + ex.getMessage());
+        }
+
+    }
     private class GetPassSlipDetail extends AsyncTask<Void, Void, Void> {
 
         private String _url;
@@ -118,7 +173,6 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
         public GetPassSlipDetail(String _url) {
             this._url = _url;
         }
-
         @Override
         protected void onPreExecute() {
             try{
@@ -132,13 +186,11 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
                 Log.e(TAG, "Error: " + ex.getMessage());
             }
         }
-
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
 
             // Making a request to url and getting response
-            this._url = this._url + recNo;
             String jsonStr = sh.makeServiceCall(this._url);
 
             if (jsonStr != null) {
@@ -147,7 +199,6 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
                     // Getting JSON Array node
                     JSONArray items = jsonObj.getJSONArray("pass_slip_detail");
-                    /*Log.d(TAG, "pass_slip_detail = " + items.toString());*/
 
                     // looping through all items
                     for (int i = 0; i < items.length(); i++) {
@@ -162,7 +213,6 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
                     }
                 } catch (final JSONException e) {
-//                    Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -175,7 +225,6 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
                 }
             } else {
-//                Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -187,19 +236,15 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
                 });
 
             }
-
             return null;
         }
-
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
-            /**
-             * Updating parsed JSON data
-             * */
+
             try
             {
                 name.setText(passSlip.get_fullname());
@@ -215,112 +260,5 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
                 Log.e(TAG, "Error: " + ex.getMessage());
             }
         }
-
-    }
-
-    /**
-     * Async task class to get json by making HTTP call
-     */
-    private class GetPassSlipApproval extends AsyncTask<Void, Void, Void> {
-
-        private String _url;
-        private int approvalResult;
-
-        public GetPassSlipApproval(String _url) {
-            this._url = _url;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            try{
-                super.onPreExecute();
-                // Showing progress dialog
-                pDialog = new ProgressDialog(PassSlipApplicationDetailActivity.this);
-                pDialog.setMessage("Please wait...");
-                pDialog.setCancelable(false);
-                pDialog.show();
-            }catch (Exception ex) {
-                Log.e(TAG, "Error: " + ex.getMessage());
-            }
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            HttpHandler sh = new HttpHandler();
-
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(this._url);
-
-            if (jsonStr != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    // Getting JSON Array node
-                    JSONObject items = jsonObj.getJSONObject("pass_slip_approval");
-
-                    this.approvalResult = Integer.parseInt(items.getString("statusId"));
-
-//                    Log.d(TAG, "Approval result: " + items.toString());
-
-                } catch (final JSONException e) {
-//                    Log.e(TAG, "Json parsing error: " + e.getMessage());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "Json parsing error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    });
-
-                }
-            } else {
-//                Log.e(TAG, "Couldn't get json from server.");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                });
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            // Dismiss the progress dialog
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-
-            try
-            {
-                Intent i = new Intent(getApplicationContext(), PassSlipActivity.class);
-                startActivity(i);
-
-                if(this.approvalResult==1) {
-                    Toast.makeText(getApplicationContext(),
-                            "Pass Slip Approved!",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-
-                if(this.approvalResult==2) {
-                    Toast.makeText(getApplicationContext(),
-                            "Pass Slip Disapproved!",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-            } catch (Exception ex) {
-                Log.e(TAG, "Error: " + ex.getMessage());
-            }
-        }
-
     }
 }

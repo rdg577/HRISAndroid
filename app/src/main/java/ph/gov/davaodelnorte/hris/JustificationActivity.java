@@ -26,7 +26,6 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
     private ProgressDialog pDialog;
     private ListView lv;
 
-    // URL to get JSON
     final String url = "WebService/Toolbox/JustificationPending?approvingEIC=";
 
     ArrayList<HashMap<String, String>> _list;
@@ -44,15 +43,7 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
 
         // Session class instance
         session = new SessionManager(getApplicationContext());
-
-        /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
         session.checkLogin();
-
-        // get user data from session
         user = session.getUserDetails();
 
         // name
@@ -66,7 +57,6 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
         lv.setOnItemClickListener(this);
 
         // domain
-        // this.url = user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC;
         new GetJustificationApplications(user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC).execute();
 
     }
@@ -132,7 +122,6 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
 
                     // counted number of items
                     this.set_count(items.length());
-//                    Log.d(TAG, "item.length=" + items.length());
 
                     // looping through all items
                     for (int i = 0; i < items.length(); i++) {
@@ -158,7 +147,6 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
                         _list.add(entry);
                     }
                 } catch (final JSONException e) {
-//                    Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -171,7 +159,6 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
 
                 }
             } else {
-//                Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

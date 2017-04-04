@@ -47,9 +47,7 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
         // Session class instance
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
-        // get user data from session
         user = session.getUserDetails();
-        // approvingEIC
         approvingEIC = user.get(SessionManager.KEY_EIC);
 
         _list = new ArrayList<>();

@@ -92,14 +92,12 @@ public class JustificationPerMonthActivity extends AppCompatActivity implements 
 
             // appending to url
             String url = user.get(SessionManager.KEY_DOMAIN) + this.url;
-//            Log.d(TAG, "fetchDetail Url: " + url);
 
             // Volley's json array request object
             JsonObjectRequest req = new JsonObjectRequest(url, parameters,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-//                            Log.d(TAG, "Response: " + response);
                             try {
 
                                 // for justifications

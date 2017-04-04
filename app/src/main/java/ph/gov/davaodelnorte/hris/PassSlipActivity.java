@@ -45,21 +45,11 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
 
         // Session class instance
         session = new SessionManager(getApplicationContext());
-
-        /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
         session.checkLogin();
-
-        // get user data from session
         user = session.getUserDetails();
 
         // name
         String name = user.get(SessionManager.KEY_NAME);
-        /*TextView tvApprovingOfficer = (TextView) findViewById(R.id.tvApprovingOfficer);
-        tvApprovingOfficer.setText(Html.fromHtml("Approving Officer: <b>" + name.toString() + "</b>"));*/
 
         // approvingEIC
         approvingEIC = user.get(SessionManager.KEY_EIC);
@@ -69,7 +59,6 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
         lv.setOnItemClickListener(this);
 
         // domain
-        // this.url = user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC;
         new GetPassSlipApplications(user.get(SessionManager.KEY_DOMAIN) + url + approvingEIC).execute();
 
     }
@@ -90,10 +79,6 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
             Log.e(TAG, "Error: " + ex.getMessage());
         }
     }
-
-    // ****************************************************************
-    //  Downloading and Parsing the JSON
-    // ****************************************************************
     /**
      * Async task class to get json by making HTTP call
      */
@@ -125,7 +110,6 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
             pDialog.show();
 
         }
-
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler httpHandler = new HttpHandler();
@@ -167,7 +151,6 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
                         _list.add(entry);
                     }
                 } catch (final JSONException e) {
-//                    Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -180,7 +163,6 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
 
                 }
             } else {
-//                Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -46,8 +46,6 @@ public class JustificationDetailActivity extends AppCompatActivity {
     SessionManager session;
     HashMap<String, String> user;
 
-
-
     // EIC of applicant
     String EIC, approvingEIC, month_year, remarks = null;
     int month, year, period, statusID;
@@ -99,10 +97,6 @@ public class JustificationDetailActivity extends AppCompatActivity {
             year = getIntent().getExtras().getInt("year");
             month_year = getIntent().getExtras().getString("month_year");
             period = getIntent().getExtras().getInt("period");
-//            Log.d(TAG, "onCreate EIC = " + EIC);
-//            Log.d(TAG, "onCreate approvingEIC = " + approvingEIC);
-//            Log.d(TAG, "onCreate month = " + String.valueOf(month));
-//            Log.d(TAG, "onCreate year = " + String.valueOf(year));
 
             fetchJustificationDetail(this.EIC, this.approvingEIC, this.month, this.year, this.period);
 
@@ -136,8 +130,6 @@ public class JustificationDetailActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
-
     private void fetchJustificationDetail(String EIC, String approvingEIC, int month, int year, int period) {
 
         try {
@@ -151,14 +143,12 @@ public class JustificationDetailActivity extends AppCompatActivity {
 
             // appending to url
             String url = user.get(SessionManager.KEY_DOMAIN) + this.urlDetail;
-//            Log.d(TAG, "fetchDetail Url: " + url);
 
             // Volley's json array request object
             JsonObjectRequest req = new JsonObjectRequest(url, parameters,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-//                            Log.d(TAG, "Response: " + response);
                             try {
 
                                 // for justifications
@@ -234,7 +224,6 @@ public class JustificationDetailActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-//                            Log.d(TAG, "Response: " + response);
                             try {
                                 JSONObject j = response.getJSONObject("justification_approval");
                                 if(j.getBoolean("has_error") == false) {
@@ -256,7 +245,6 @@ public class JustificationDetailActivity extends AppCompatActivity {
                             Log.e(TAG, "Response error: " + error.getMessage());
                         }
                     }
-
             );
 
             // Adding request to request queue

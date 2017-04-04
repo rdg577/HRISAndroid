@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     JSONObject j = items.getJSONObject(i);
                                                     // Creating user login session
                                                     session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
-                                                    /*session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.130.49/");*/
+//                                                    session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.130.57/");
                                                 }
 
                                                 Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();

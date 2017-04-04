@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import app.MyApplication;
 
@@ -28,8 +29,8 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    final String urlPTLOSDetail = "WebService/Toolbox/PTLOSDetail?id=";
-    final String urlPTLOSApproval = "WebService/Toolbox/PTLOSApproval?";
+    final String urlPTLOSDetail = "WebService/Toolbox/PTLOSDetail";
+    final String urlPTLOSApproval = "WebService/Toolbox/PTLOSApproval";
 
     // Session Manager Class
     SessionManager session;
@@ -40,7 +41,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
 
     // fields
     TextView name, destination, purpose, date_applied, departure, arrival, official_return;
-    Button btnApprove, btnDisapprove;
+    Button btnApprove, btnDisapprove, btnReturn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +80,17 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                         }
                     }
             );
+            btnReturn = (Button) findViewById(R.id.btnReturn);
+            btnReturn.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PTLOSApproval(recNo, 0);    // 0 - returned
+                        }
+                    }
+            );
 
             recNo = (int) getIntent().getExtras().getInt("recNo");
-//            Log.d(TAG, "onCreate recNo = " + recNo);
-
             fetchPTLOSDetail(recNo);
 
         } catch (Exception ex) {
@@ -94,11 +102,14 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
 
         try {
             // appending to url
-            String url = user.get(SessionManager.KEY_DOMAIN) + this.urlPTLOSDetail + id;
-//            Log.d(TAG, "fetchPTLOSDetail Url: " + url);
+            String url = user.get(SessionManager.KEY_DOMAIN) + this.urlPTLOSDetail;
+
+            Map<String, String> params = new HashMap<>();
+            params.put("id", String.valueOf(id));
+            JSONObject parameters = new JSONObject(params);
 
             // Volley's json array request object
-            JsonObjectRequest req = new JsonObjectRequest(url, null,
+            JsonObjectRequest req = new JsonObjectRequest(url, parameters,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -106,8 +117,6 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                             try {
                                 JSONArray items = response.getJSONArray("ptlos_detail");
                                 JSONObject j = items.getJSONObject(0);      // zero(0) - only one item
-//                                Log.d(TAG, j.toString());
-//                                Log.d(TAG, "recNo = " + j.get("recNo"));
                                 // display to fields
                                 date_applied.setText(j.getString("date_applied"));
                                 name.setText(j.getString("name"));
@@ -141,11 +150,15 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
 
         try {
             // appending to url
-            String url = user.get(SessionManager.KEY_DOMAIN) + this.urlPTLOSApproval + "id=" + id + "&tag=" + tag;
-//            Log.d(TAG, "fetchPTLOSApproval Url: " + url);
+            String url = user.get(SessionManager.KEY_DOMAIN) + this.urlPTLOSApproval;
+
+            Map<String, String> params = new HashMap<>();
+            params.put("id", String.valueOf(id));
+            params.put("tag", String.valueOf(tag));
+            JSONObject parameters = new JSONObject(params);
 
             // Volley's json array request object
-            JsonObjectRequest req = new JsonObjectRequest(url, null,
+            JsonObjectRequest req = new JsonObjectRequest(url, parameters,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -156,6 +169,8 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "PTLOS Disapproved!",Toast.LENGTH_LONG).show();
                                 }else if(j.getInt("tag") == 5) {
                                     Toast.makeText(getApplicationContext(), "PTLOS Approved!",Toast.LENGTH_LONG).show();
+                                }else if(j.getInt("tag") == 0) {
+                                    Toast.makeText(getApplicationContext(), "PTLOS Returned!",Toast.LENGTH_LONG).show();
                                 }
                                 Intent i = new Intent(getApplicationContext(), PTLOSActivity.class);
                                 startActivity(i);
