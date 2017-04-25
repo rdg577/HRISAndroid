@@ -251,9 +251,9 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
                 destination.setText(passSlip.get_destination());
                 purpose.setText(passSlip.get_purpose());
                 time_out.setText(passSlip.get_timeOut().toString());
-                if(passSlip.get_isOfficial()==1) {
+                if(passSlip.get_isOfficial()==2) {
                     isOfficial.setChecked(true);
-                } else {
+                } else if(passSlip.get_isOfficial()==1) {
                     isPersonal.setChecked(true);
                 }
             } catch (Exception ex) {

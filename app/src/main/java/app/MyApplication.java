@@ -12,8 +12,7 @@ import com.android.volley.toolbox.Volley;
  */
 
 public class MyApplication extends Application {
-    public static final String TAG = MyApplication.class
-            .getSimpleName();
+    public static final String TAG = MyApplication.class.getSimpleName();
 
     private RequestQueue mRequestQueue;
 

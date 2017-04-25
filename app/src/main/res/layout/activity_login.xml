@@ -71,7 +71,7 @@
             android:layout_marginTop="8dp"
             android:text="Human Resource Information System"
             android:textColor="@color/hris_colorPrimary"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintHorizontal_bias="0.523"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -96,7 +96,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-            app:srcCompat="@drawable/davnor_seal_slogan" />
+            app:srcCompat="@drawable/davnor_seal" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

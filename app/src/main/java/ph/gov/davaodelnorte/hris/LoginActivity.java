@@ -33,7 +33,8 @@ import helper.Menu;
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = LoginActivity.class.getSimpleName();
-    private final String URL = "http://www.davaodelnorte.gov.ph:333/";
+    // private final String URL = "http://www.davaodelnorte.gov.ph:333/";
+    private final String URL = "http://222.127.105.70:333/";
 
     private boolean login_flag = false;
 
@@ -91,23 +92,20 @@ public class LoginActivity extends AppCompatActivity {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-//                                        Log.d(TAG, "Response = " + response);
+                                        Log.d(TAG, "response="+response.toString());
+
                                         String dataType = "";
                                         try {
                                             dataType = response.get("data").getClass().getSimpleName();
-//                                            Log.d(TAG, "dataType=" + dataType);
+
                                             if (dataType.matches("Integer")) {
-//                                                Log.d(TAG, "If Integer=false");
                                                 alert.showAlertDialog(LoginActivity.this, "Login failed..", "Username/Password is incorrect", false);
                                             } else if (dataType.matches("JSONArray")) {
-//                                                Log.d(TAG, "If Integer=true");
-
                                                 JSONArray items = response.getJSONArray("data");
                                                 for (int i = 0; i < items.length(); i++) {
                                                     JSONObject j = items.getJSONObject(i);
                                                     // Creating user login session
                                                     session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
-//                                                    session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.130.57/");
                                                 }
 
                                                 Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
@@ -142,64 +140,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-    private boolean login(String username, String password) {
-
-        try {
-            // appending to url
-            String url = URL + "Account/Login";
-
-            Map<String, String> params = new HashMap<>();
-            params.put("username", username);
-            params.put("password", password);
-            JSONObject parameters = new JSONObject(params);
-
-            // Volley's json array request object
-            JsonObjectRequest req = new JsonObjectRequest(url, parameters,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-//                            Log.d(TAG, "Response = " + response);
-                            String dataType = "";
-                            try {
-                                dataType = response.get("data").getClass().getSimpleName();
-//                                Log.d(TAG, "dataType=" + dataType);
-                                if (dataType.matches("Integer")) {
-//                                    Log.d(TAG, "If Integer=false");
-                                    login_flag = false;
-                                } else if (dataType.matches("JSONArray")) {
-//                                    Log.d(TAG, "If Integer=true");
-                                    login_flag = true;
-
-                                    JSONArray items = response.getJSONArray("data");
-                                    for (int i = 0; i < items.length(); i++) {
-                                        JSONObject j = items.getJSONObject(i);
-                                        // Creating user login session
-                                        session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
-                                        /*session.createLoginSession("SG13299974519D8FF010", "GABONADA, SOFONIAS JR. P.", "http://172.16.0.124/");*/
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "Response error: " + error.getMessage());
-                        }
-                    }
-            );
-            // Adding request to request queue
-            MyApplication.getInstance().addToRequestQueue(req);
-        } catch (Exception ex) {
-            Log.e(TAG, "ERROR: " + ex.getMessage());
-        }
-
-
-        Log.d(TAG, "login return value=" + login_flag);
-        return login_flag;
-    }
-
 }

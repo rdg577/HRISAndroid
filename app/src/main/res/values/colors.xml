@@ -10,7 +10,7 @@
     <color name="hris_colorAccent">#00c853</color>
     <color name="hris_colorPrimaryDark">#19571c</color>
 
-    <string-array name="movie_serial_bg">
+    <string-array name="menu_bg_colors">
         <item>#24c6d5</item>
         <item>#57dd86</item>
         <item>#ad7dcf</item>

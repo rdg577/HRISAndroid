@@ -26,7 +26,7 @@ public class SwipeListAdapter extends BaseAdapter {
     public SwipeListAdapter(Activity activity, List<Menu> menuList) {
         this.activity = activity;
         this.menuList = menuList;
-        bgColors = activity.getApplicationContext().getResources().getStringArray(R.array.movie_serial_bg);
+        bgColors = activity.getApplicationContext().getResources().getStringArray(R.array.menu_bg_colors);
     }
 
     @Override

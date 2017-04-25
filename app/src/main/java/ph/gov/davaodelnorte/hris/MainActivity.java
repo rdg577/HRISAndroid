@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             session.checkLogin();
             user = session.getUserDetails();
 
+            Log.d(TAG, "user=" + user.toString());
+
             listView = (ListView) findViewById(R.id.lvJustifications);
             swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
@@ -65,22 +67,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             adapter = new SwipeListAdapter(this, menuList);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
-
-            //swipeRefreshLayout.setOnRefreshListener(this);
-
-            /**
-             * Showing Swipe Refresh animation on activity create
-             * As animation won't start on onCreate, post runnable is used
-             */
-            /*swipeRefreshLayout.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            swipeRefreshLayout.setRefreshing(true);
-
-                                            fetchMenus(user.get(SessionManager.KEY_EIC));
-                                        }
-                                    }
-            );*/
         } catch (Exception ex) {
             Log.e(TAG, "ERROR: " + ex.getMessage());
         }
@@ -147,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
+                            Log.d(TAG, "response=" + response);
                             if (response.length() > 0) {
                                 // clear the list
                                 menuList.clear();
