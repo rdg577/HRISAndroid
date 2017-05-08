@@ -3,7 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#ff4081</color>
-    <color name="colorHRISGreen">#4caf50</color>
     <color name="hris_green">#4caf50</color>
     <color name="hris_colorPrimary">#42a045</color>
     <color name="hris_background">#fafafa</color>
@@ -14,8 +13,7 @@
         <item>#24c6d5</item>
         <item>#57dd86</item>
         <item>#ad7dcf</item>
-        <item>#ff484d</item>
-        <item>#fcba59</item>
-        <item>#24c6d5</item>
+        <item>#2ac714</item>
+        <item>#e41ae4</item>
     </string-array>
 </resources>

@@ -13,7 +13,7 @@
         android:background="@drawable/ic_ptlos"
         android:padding="25dp"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
@@ -22,9 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/serial"
-        android:layout_toRightOf="@+id/serial"
-        android:paddingLeft="20dp"
-        android:textSize="18dp"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

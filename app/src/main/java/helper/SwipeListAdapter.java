@@ -14,14 +14,14 @@ import java.util.List;
 import ph.gov.davaodelnorte.hris.R;
 
 /**
- * Created by Reden Gallera on 14/03/2017.
+ * Created by Reden D. Gallera on 14/03/2017.
  */
 
 public class SwipeListAdapter extends BaseAdapter {
-    private Activity activity;
+    private final Activity activity;
     private LayoutInflater inflater;
-    private List<Menu> menuList;
-    private String[] bgColors;
+    private final List<Menu> menuList;
+    private final String[] bgColors;
 
     public SwipeListAdapter(Activity activity, List<Menu> menuList) {
         this.activity = activity;
@@ -51,13 +51,13 @@ public class SwipeListAdapter extends BaseAdapter {
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.menu_item, null);
+            convertView = inflater.inflate(R.layout.menu_item, parent,false);
 
         TextView serial = (TextView) convertView.findViewById(R.id.serial);
         TextView title = (TextView) convertView.findViewById(R.id.title);
 
-        serial.setText(String.valueOf(menuList.get(position).TotalApplications));
-        title.setText(menuList.get(position).Title);
+        serial.setText(String.valueOf(menuList.get(position).getTotalApplications()));
+        title.setText(menuList.get(position).getTitle());
 
         String color = bgColors[position % bgColors.length];
         serial.setBackgroundColor(Color.parseColor(color));

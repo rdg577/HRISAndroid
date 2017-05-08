@@ -22,19 +22,19 @@ import java.util.HashMap;
 
 public class PassSlipActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private String TAG = PassSlipActivity.class.getSimpleName();
+    private final String TAG = PassSlipActivity.class.getSimpleName();
 
     private ProgressDialog pDialog;
     private ListView lv;
 
     // URL to get JSON
-    final String url = "WebService/Toolbox/PassSlipsPending?approvingEIC=";
+    private final String url = "WebService/Toolbox/PassSlipsPending?approvingEIC=";
 
-    ArrayList<HashMap<String, String>> _list;
+    private ArrayList<HashMap<String, String>> _list;
 
     // Session Manager Class
-    SessionManager session;
-    HashMap<String, String> user;
+    private SessionManager session;
+    private HashMap<String, String> user;
 
     private static String approvingEIC;
 
@@ -84,7 +84,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
      */
     private class GetPassSlipApplications extends AsyncTask<Void, Void, Void> {
 
-        private String _url;
+        private final String _url;
         private int _count;
 
         public int get_count() {
@@ -105,11 +105,12 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
             super.onPreExecute();
             // Showing progress dialog
             pDialog = new ProgressDialog(PassSlipActivity.this);
-            pDialog.setMessage("Please wait...");
+            pDialog.setMessage("Please wait while requesting data from server ...");
             pDialog.setCancelable(false);
             pDialog.show();
 
         }
+
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler httpHandler = new HttpHandler();

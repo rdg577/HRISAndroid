@@ -21,18 +21,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class JustificationActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private String TAG = JustificationActivity.class.getSimpleName();
+    private final String TAG = JustificationActivity.class.getSimpleName();
 
     private ProgressDialog pDialog;
     private ListView lv;
 
-    final String url = "WebService/Toolbox/JustificationPending?approvingEIC=";
+    private final String url = "WebService/Toolbox/JustificationPending?approvingEIC=";
 
-    ArrayList<HashMap<String, String>> _list;
+    private ArrayList<HashMap<String, String>> _list;
 
     // Session Manager Class
-    SessionManager session;
-    HashMap<String, String> user;
+    private SessionManager session;
+    private HashMap<String, String> user;
 
     private static String approvingEIC;
 
@@ -79,7 +79,7 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
 
     private class GetJustificationApplications extends AsyncTask<Void, Void, Void> {
 
-        private String _url;
+        private final String _url;
         private int _count;
 
         public int get_count() {
@@ -100,7 +100,7 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
             super.onPreExecute();
             // Showing progress dialog
             pDialog = new ProgressDialog(JustificationActivity.this);
-            pDialog.setMessage("Please wait...");
+            pDialog.setMessage("Please wait while requesting data from server...");
             pDialog.setCancelable(false);
             pDialog.show();
 
@@ -126,9 +126,6 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
                     // looping through all items
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject c = items.getJSONObject(i);
-
-                        Log.d(TAG, "c.length=" + c.length());
-                        Log.d(TAG, "c.getString(\"Key\")=" + c.getString("Key"));
 
                         String EIC = ((JSONObject) c.getJSONObject("Key")).getString("EIC");
                         String name = ((JSONObject) c.getJSONObject("Key")).getString("fullnameFirst");

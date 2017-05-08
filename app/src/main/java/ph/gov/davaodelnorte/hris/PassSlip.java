@@ -1,12 +1,11 @@
 package ph.gov.davaodelnorte.hris;
 
-import java.util.Date;
-
 /**
  * Created by Reden Gallera on 10/03/2017.
  */
 
-public class PassSlip {
+@SuppressWarnings("DefaultFileTemplate")
+class PassSlip {
 
     private int _recNo;
     private String _controlNo;

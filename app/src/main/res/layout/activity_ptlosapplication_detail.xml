@@ -8,7 +8,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -16,7 +16,6 @@
             android:id="@+id/textView7"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="Date Applied:"
             android:textColor="@color/hris_colorPrimaryDark"
@@ -28,7 +27,6 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="."
             android:textColor="@color/hris_colorPrimaryDark"
@@ -39,7 +37,6 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="."
             android:textColor="@color/hris_colorPrimaryDark"
@@ -72,7 +69,7 @@
             android:text="."
             android:textColor="@color/hris_colorPrimaryDark"
             app:layout_constraintLeft_toRightOf="@+id/imageBulb"
-            app:layout_constraintRight_toRightOf="@+id/btnApprove"
+            app:layout_constraintRight_toRightOf="@+id/btnRevert"
             app:layout_constraintTop_toTopOf="@+id/imageBulb"
             app:layout_constraintHorizontal_bias="0.0" />
 
@@ -80,7 +77,7 @@
             android:id="@+id/textView15"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="8dp"
             android:text="Departure date:"
             android:textColor="@color/hris_colorPrimary"
@@ -91,7 +88,6 @@
             android:id="@+id/departure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="."
             android:textColor="@color/hris_colorPrimary"
@@ -102,7 +98,7 @@
             android:id="@+id/textView18"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:text="Arrival date:"
             android:textColor="@color/hris_colorPrimary"
@@ -113,7 +109,6 @@
             android:id="@+id/arrival"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="."
             android:textColor="@color/hris_colorPrimary"
@@ -124,7 +119,7 @@
             android:id="@+id/textView22"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:text="Official Return:"
             android:textColor="@color/hris_colorPrimary"
@@ -135,7 +130,6 @@
             android:id="@+id/official_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="."
             android:textColor="@color/hris_colorPrimary"
@@ -143,7 +137,7 @@
             app:layout_constraintLeft_toRightOf="@+id/textView22" />
 
         <Button
-            android:id="@+id/btnApprove"
+            android:id="@+id/btnRevert"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button_success"
@@ -165,9 +159,9 @@
             android:background="@drawable/rounded_button_default"
             android:text="Disapprove"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@+id/btnApprove"
-            app:layout_constraintRight_toRightOf="@+id/btnApprove"
-            app:layout_constraintTop_toBottomOf="@+id/btnApprove"
+            app:layout_constraintLeft_toLeftOf="@+id/btnRevert"
+            app:layout_constraintRight_toRightOf="@+id/btnRevert"
+            app:layout_constraintTop_toBottomOf="@+id/btnRevert"
             android:layout_marginTop="8dp" />
 
         <Button
@@ -185,9 +179,9 @@
             app:layout_constraintTop_toBottomOf="@+id/btnDisapprove" />
         <ImageView
             android:id="@+id/imageMan"
+            android:contentDescription="Man"
             android:layout_width="30dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:srcCompat="@drawable/ic_user_man"
             android:layout_marginStart="8dp"
@@ -196,6 +190,7 @@
 
         <ImageView
             android:id="@+id/imageLocation"
+            android:contentDescription="Location"
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
@@ -205,6 +200,7 @@
 
         <ImageView
             android:id="@+id/imageBulb"
+            android:contentDescription="Purpose"
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
@@ -214,13 +210,14 @@
 
         <ImageView
             android:id="@+id/imageClock"
+            android:contentDescription="Time"
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:layout_marginTop="16dp"
             app:srcCompat="@drawable/ic_clock"
             app:layout_constraintLeft_toLeftOf="@+id/imageBulb"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="0dp" />
+            android:layout_marginStart="0dp" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -16,7 +16,8 @@ import java.net.URL;
  * Created by Reden Gallera on 09/03/2017.
  */
 
-public class HttpHandler {
+@SuppressWarnings("DefaultFileTemplate")
+class HttpHandler {
     private static final String TAG = HttpHandler.class.getSimpleName();
 
     public HttpHandler() {

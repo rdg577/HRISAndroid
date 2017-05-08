@@ -25,21 +25,23 @@ import java.util.HashMap;
 import app.MyApplication;
 
 public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private String TAG = PTLOSActivity.class.getSimpleName();
+    private final String TAG = PTLOSActivity.class.getSimpleName();
 
-    private ProgressDialog pDialog;
     private ListView lv;
 
     // URL to get JSON
-    final String url = "WebService/Toolbox/GetPTLOSApplications?approvingEIC=";
+    private final String url = "WebService/Toolbox/GetPTLOSApplications?approvingEIC=";
 
-    ArrayList<HashMap<String, String>> _list;
+    private ArrayList<HashMap<String, String>> _list;
 
     // Session Manager Class
-    SessionManager session;
-    HashMap<String, String> user;
+    private SessionManager session;
+    private HashMap<String, String> user;
 
     private static String approvingEIC;
+
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,8 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            progressDialog.dismiss();
+
                             try {
                                 JSONArray items = response.getJSONArray("ptlos_applications");
                                 for (int i = 0; i < items.length(); i++) {
@@ -122,6 +126,10 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
 
             // Adding request to request queue
             MyApplication.getInstance().addToRequestQueue(req);
+
+            progressDialog = new ProgressDialog(PTLOSActivity.this);
+            progressDialog.setMessage("Requesting data from server ....");
+            progressDialog.show();
         } catch (Exception ex) {
             Log.e(TAG, "ERROR: " + ex.getMessage());
         }

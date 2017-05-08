@@ -10,7 +10,6 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="0dp"
         android:text="date"
@@ -22,18 +21,17 @@
         android:id="@+id/log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="0dp"
         android:text="log"
         android:textColor="@color/hris_colorAccent"
         app:layout_constraintLeft_toRightOf="@+id/imageView9"
-        app:layout_constraintTop_toTopOf="@+id/imageView9" />
+        app:layout_constraintTop_toTopOf="@+id/imageView9"/>
 
     <TextView
         android:id="@+id/reason"
         android:layout_width="223dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="0dp"
         android:text="reason"
@@ -43,9 +41,10 @@
 
     <ImageView
         android:id="@+id/imageView8"
+        android:contentDescription="DateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -53,9 +52,10 @@
 
     <ImageView
         android:id="@+id/imageView9"
+        android:contentDescription="Reason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="@+id/imageView8"
         app:layout_constraintTop_toBottomOf="@+id/imageView8"
@@ -63,9 +63,10 @@
 
     <ImageView
         android:id="@+id/imageView10"
+        android:contentDescription="Detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="@+id/imageView9"
         app:layout_constraintTop_toBottomOf="@+id/imageView9"

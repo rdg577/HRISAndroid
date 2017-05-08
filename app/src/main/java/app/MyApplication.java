@@ -11,8 +11,9 @@ import com.android.volley.toolbox.Volley;
  * Created by Reden Gallera on 14/03/2017.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class MyApplication extends Application {
-    public static final String TAG = MyApplication.class.getSimpleName();
+    private static final String TAG = MyApplication.class.getSimpleName();
 
     private RequestQueue mRequestQueue;
 
@@ -28,7 +29,7 @@ public class MyApplication extends Application {
         return mInstance;
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         }

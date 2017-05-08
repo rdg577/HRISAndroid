@@ -31,19 +31,19 @@ import java.util.Map;
 
 import app.MyApplication;
 
-public class JustificationDetailActivity extends AppCompatActivity {
-    private final String TAG = JustificationDetailActivity.class.getSimpleName();
+public class JustificationRevertDetailActivity extends AppCompatActivity {
+
+    private final String TAG = JustificationRevertDetailActivity.class.getSimpleName();
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    private final String urlDetail = "WebService/Toolbox/JustificationDetail";
-    private final String urlApproval = "WebService/Toolbox/JustificationApproval";
+    private final String urlDetail = "WebService/Toolbox/JustificationRevertDetail";
+    private String urlApproval = "WebService/Toolbox/JustificationApproval";
 
     // Session Manager Class
     private SessionManager session;
     private HashMap<String, String> user;
 
-    // EIC of applicant
     private String EIC;
     private String approvingEIC;
     private String month_year;
@@ -55,8 +55,7 @@ public class JustificationDetailActivity extends AppCompatActivity {
 
     // fields
     private TextView name;
-    private Button btnApprove;
-    private Button btnDisapprove;
+    private Button btnRevert;
     private ListView lvJustifications;
     private EditText input;
 
@@ -65,7 +64,7 @@ public class JustificationDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_justification_detail);
+        setContentView(R.layout.activity_justification_revert_detail);
 
         try{
             // Session class instance
@@ -74,49 +73,41 @@ public class JustificationDetailActivity extends AppCompatActivity {
             // get user data from session
             user = session.getUserDetails();
             approvingEIC = user.get(SessionManager.KEY_EIC);
+
+            this.urlApproval = user.get(SessionManager.KEY_DOMAIN) + this.urlApproval;
+
             // fields
             name = (TextView) findViewById(R.id.name);
             lvJustifications = (ListView) findViewById(R.id.lvJustifications);
 
-            btnApprove = (Button) findViewById(R.id.btnRevert);
-            btnApprove.setOnClickListener(
+            btnRevert = (Button) findViewById(R.id.btnRevert);
+            btnRevert.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            statusID = 1; // 1 - approve
-                            JustificationApproval(EIC, month, year, month_year, approvingEIC, statusID, remarks, period);
-                        }
-                    }
-            );
-            btnDisapprove = (Button) findViewById(R.id.btnDisapprove);
-            btnDisapprove.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            returnJustification();
+                            revertJustification();
                         }
                     }
             );
 
-            // get selected EIC
             EIC = getIntent().getExtras().getString("EIC");
             month = getIntent().getExtras().getInt("month");
             year = getIntent().getExtras().getInt("year");
             month_year = getIntent().getExtras().getString("month_year");
             period = getIntent().getExtras().getInt("period");
 
-            fetchJustificationDetail(this.EIC, this.approvingEIC, this.month, this.year, this.period);
+            fetchJustificationDetail(EIC, approvingEIC, month, year, period, user.get(SessionManager.KEY_DOMAIN) + this.urlDetail);
 
         } catch (Exception ex) {
-            Log.e(TAG, "onCreate: " + ex.getMessage());
+            Log.e(TAG, "onCreate Error: " + ex.getMessage());
         }
     }
 
-    private void returnJustification() {
+    private void revertJustification() {
         input = new EditText(getApplicationContext());
         input.setTextColor(Color.parseColor("#ff0000aa"));
-        AlertDialog.Builder builder = new AlertDialog.Builder(JustificationDetailActivity.this);
-        builder.setTitle("Returned Justification")
+        AlertDialog.Builder builder = new AlertDialog.Builder(JustificationRevertDetailActivity.this);
+        builder.setTitle("Revert Justification")
                 .setMessage("Please enter remark.")
                 .setView(input)
                 .setCancelable(false)
@@ -125,7 +116,7 @@ public class JustificationDetailActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         remarks = input.getText().toString();
                         statusID = 0; // 0 - disapprove
-                        JustificationApproval(EIC, month, year, month_year, approvingEIC, statusID, remarks, period);
+                        JustificationApproval(EIC, month, year, month_year, approvingEIC, statusID, remarks, period, urlApproval);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -138,7 +129,67 @@ public class JustificationDetailActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void fetchJustificationDetail(String EIC, String approvingEIC, int month, int year, int period) {
+    private void JustificationApproval(String EIC, int month, int year, String month_year, String approvingEIC, final int statusID, String remarks, int period, String url) {
+
+        try {
+            Map<String, String> params = new HashMap<>();
+            params.put("EIC", EIC);
+            params.put("month", String.valueOf(month));
+            params.put("year", String.valueOf(year));
+            params.put("month_year", month_year);
+            params.put("approveEIC", approvingEIC);
+            params.put("statusID", String.valueOf(statusID));
+            params.put("remarks", remarks);
+            params.put("period", String.valueOf(period));
+            JSONObject parameters = new JSONObject(params);
+            Log.d(TAG, "parameters = " + parameters.toString());
+
+            // appending to url
+            //String url = user.get(SessionManager.KEY_DOMAIN) + this.urlApproval;
+
+            // Volley's json array request object
+            JsonObjectRequest req = new JsonObjectRequest(url, parameters,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            progressDialog.dismiss();
+
+                            try {
+                                JSONObject j = response.getJSONObject("justification_approval");
+                                if(!j.getBoolean("has_error")) {
+                                    if(statusID==1)
+                                        Toast.makeText(getApplicationContext(), "Justification Approved!",Toast.LENGTH_LONG).show();
+                                    else
+                                        Toast.makeText(getApplicationContext(), "Justification has been reverted!",Toast.LENGTH_LONG).show();
+                                }
+                                Intent i = new Intent(getApplicationContext(), JustificationRevertActivity.class);
+                                startActivity(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG, "Response error: " + error.getMessage());
+                        }
+                    }
+            );
+
+            // Adding request to request queue
+            MyApplication.getInstance().addToRequestQueue(req);
+
+            progressDialog = new ProgressDialog(JustificationRevertDetailActivity.this);
+            progressDialog.setMessage("Requesting data from server ....");
+            progressDialog.show();
+        } catch (Exception ex) {
+            Log.e(TAG, "fetchJustificationApproval Error: " + ex.getMessage());
+        }
+
+    }
+
+    private void fetchJustificationDetail(String EIC, String approvingEIC, int month, int year, int period, String url) {
 
         try {
             Map<String, String> params = new HashMap<>();
@@ -148,9 +199,6 @@ public class JustificationDetailActivity extends AppCompatActivity {
             params.put("year", String.valueOf(year));
             params.put("period", String.valueOf(period));
             JSONObject parameters = new JSONObject(params);
-
-            // appending to url
-            String url = user.get(SessionManager.KEY_DOMAIN) + this.urlDetail;
 
             // Volley's json array request object
             JsonObjectRequest req = new JsonObjectRequest(url, parameters,
@@ -181,7 +229,7 @@ public class JustificationDetailActivity extends AppCompatActivity {
                                 }
 
                                 ListAdapter adapter = new SimpleAdapter(
-                                        JustificationDetailActivity.this
+                                        JustificationRevertDetailActivity.this
                                         ,_list
                                         ,R.layout.list_item_justification_detail
                                         ,new String[]{"date", "log", "reason"}
@@ -205,72 +253,13 @@ public class JustificationDetailActivity extends AppCompatActivity {
             // Adding request to request queue
             MyApplication.getInstance().addToRequestQueue(req);
 
-            progressDialog = new ProgressDialog(JustificationDetailActivity.this);
+            progressDialog = new ProgressDialog(JustificationRevertDetailActivity.this);
             progressDialog.setMessage("Requesting data from server ....");
             progressDialog.show();
         } catch (Exception ex) {
-            Log.e(TAG, "fetchJustificationDetail ERROR: " + ex.getMessage());
+            Log.e(TAG, "fetchJustificationDetail Error: " + ex.getMessage());
         }
 
     }
 
-    private void JustificationApproval(String EIC, int month, int year, String month_year, String approvingEIC, final int statusID, String remarks, int period) {
-
-        try {
-            Map<String, String> params = new HashMap<>();
-            params.put("EIC", EIC);
-            params.put("month", String.valueOf(month));
-            params.put("year", String.valueOf(year));
-            params.put("month_year", month_year);
-            params.put("approveEIC", approvingEIC);
-            params.put("statusID", String.valueOf(statusID));
-            params.put("remarks", remarks);
-            params.put("period", String.valueOf(period));
-            JSONObject parameters = new JSONObject(params);
-            Log.d(TAG, "parameters = " + parameters.toString());
-
-            // appending to url
-            String url = user.get(SessionManager.KEY_DOMAIN) + this.urlApproval;
-
-            // Volley's json array request object
-            JsonObjectRequest req = new JsonObjectRequest(url, parameters,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            progressDialog.dismiss();
-
-                            try {
-                                JSONObject j = response.getJSONObject("justification_approval");
-                                if(!j.getBoolean("has_error")) {
-                                    if(statusID==1)
-                                        Toast.makeText(getApplicationContext(), "Justification Approved!",Toast.LENGTH_LONG).show();
-                                    else
-                                        Toast.makeText(getApplicationContext(), "Justification has been returned!",Toast.LENGTH_LONG).show();
-                                }
-                                Intent i = new Intent(getApplicationContext(), JustificationActivity.class);
-                                startActivity(i);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "Response error: " + error.getMessage());
-                        }
-                    }
-            );
-
-            // Adding request to request queue
-            MyApplication.getInstance().addToRequestQueue(req);
-
-            progressDialog = new ProgressDialog(JustificationDetailActivity.this);
-            progressDialog.setMessage("Requesting data from server ....");
-            progressDialog.show();
-        } catch (Exception ex) {
-            Log.e(TAG, "fetchJustificationApproval ERROR: " + ex.getMessage());
-        }
-
-    }
 }

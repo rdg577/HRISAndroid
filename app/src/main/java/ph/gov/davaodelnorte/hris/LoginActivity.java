@@ -1,5 +1,6 @@
 package ph.gov.davaodelnorte.hris;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,13 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
@@ -24,12 +22,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import app.MyApplication;
-import helper.Menu;
 
 /**
  * Created by Reden Gallera on 09/03/2017.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = LoginActivity.class.getSimpleName();
@@ -39,16 +37,19 @@ public class LoginActivity extends AppCompatActivity {
     private boolean login_flag = false;
 
     // Email, password edittext
-    EditText txtUsername, txtPassword;
+    private EditText txtUsername;
+    private EditText txtPassword;
 
     // login button
-    Button btnLogin;
+    private Button btnLogin;
 
     // Alert Dialog Manager
-    AlertDialogManager alert = new AlertDialogManager();
+    private final AlertDialogManager alert = new AlertDialogManager();
 
     // Session Manager Class
-    SessionManager session;
+    private SessionManager session;
+
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,9 @@ public class LoginActivity extends AppCompatActivity {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Log.d(TAG, "response="+response.toString());
+                                        progressDialog.dismiss();
+
+                                        //Log.d(TAG, "response="+response.toString());
 
                                         String dataType = "";
                                         try {
@@ -106,9 +109,14 @@ public class LoginActivity extends AppCompatActivity {
                                                     JSONObject j = items.getJSONObject(i);
                                                     // Creating user login session
                                                     session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
+                                                    //session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://172.16.130.61/");
                                                 }
 
                                                 Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
+
+                                                // start service
+                                                startService(new Intent(getBaseContext(),HRISService.class));
+
                                                 // Starting MainActivity
                                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                                 startActivity(i);
@@ -129,6 +137,10 @@ public class LoginActivity extends AppCompatActivity {
                         );
                         // Adding request to request queue
                         MyApplication.getInstance().addToRequestQueue(req);
+
+                        progressDialog = new ProgressDialog(LoginActivity.this);
+                        progressDialog.setMessage("Verifying user credentials from server ....");
+                        progressDialog.show();
                     } catch (Exception ex) {
                         Log.e(TAG, "ERROR: " + ex.getMessage());
                     }

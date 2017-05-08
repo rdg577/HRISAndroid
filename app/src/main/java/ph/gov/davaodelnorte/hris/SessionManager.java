@@ -10,18 +10,19 @@ import android.content.SharedPreferences.Editor;
  * Created by Reden Gallera on 09/03/2017.
  */
 
-public class SessionManager {
+@SuppressWarnings("DefaultFileTemplate")
+class SessionManager {
     // Shared Preferences
-    SharedPreferences pref;
+    private final SharedPreferences pref;
 
     // Editor for Shared preferences
-    Editor editor;
+    private final Editor editor;
 
     // Context
-    Context _context;
+    private final Context _context;
 
     // Shared pref mode
-    int PRIVATE_MODE = 0;
+    private final int PRIVATE_MODE = 0;
 
     // Sharedpref file name
     private static final String PREF_NAME = "HRISPreferences";
@@ -75,7 +76,7 @@ public class SessionManager {
      * Get stored session data
      * */
     public HashMap<String, String> getUserDetails(){
-        HashMap<String, String> user = new HashMap<String, String>();
+        HashMap<String, String> user = new HashMap<>();
 
         // user name
         user.put(KEY_EIC, pref.getString(KEY_EIC, null));

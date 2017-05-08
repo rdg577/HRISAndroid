@@ -25,23 +25,32 @@ import app.MyApplication;
 
 public class PTLOSApplicationDetailActivity extends AppCompatActivity {
 
-    private String TAG = PTLOSApplicationDetailActivity.class.getSimpleName();
-    private ProgressDialog pDialog;
+    private final String TAG = PTLOSApplicationDetailActivity.class.getSimpleName();
 
     // URL to get JSON
-    final String urlPTLOSDetail = "WebService/Toolbox/PTLOSDetail";
-    final String urlPTLOSApproval = "WebService/Toolbox/PTLOSApproval";
+    private final String urlPTLOSDetail = "WebService/Toolbox/PTLOSDetail";
+    private final String urlPTLOSApproval = "WebService/Toolbox/PTLOSApproval";
 
     // Session Manager Class
-    SessionManager session;
-    HashMap<String, String> user;
+    private SessionManager session;
+    private HashMap<String, String> user;
 
     // PTLOS record no
-    int recNo;
+    private int recNo;
 
     // fields
-    TextView name, destination, purpose, date_applied, departure, arrival, official_return;
-    Button btnApprove, btnDisapprove, btnReturn;
+    private TextView name;
+    private TextView destination;
+    private TextView purpose;
+    private TextView date_applied;
+    private TextView departure;
+    private TextView arrival;
+    private TextView official_return;
+    private Button btnApprove;
+    private Button btnDisapprove;
+    private Button btnReturn;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +71,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
             departure = (TextView) findViewById(R.id.departure);
             arrival = (TextView) findViewById(R.id.arrival);
             official_return = (TextView) findViewById(R.id.official_return);
-            btnApprove = (Button) findViewById(R.id.btnApprove);
+            btnApprove = (Button) findViewById(R.id.btnRevert);
             btnApprove.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -113,7 +122,9 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response);
+                            progressDialog.dismiss();
+
+                            //Log.d(TAG, "Response: " + response);
                             try {
                                 JSONArray items = response.getJSONArray("ptlos_detail");
                                 JSONObject j = items.getJSONObject(0);      // zero(0) - only one item
@@ -140,6 +151,10 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
 
             // Adding request to request queue
             MyApplication.getInstance().addToRequestQueue(req);
+
+            progressDialog = new ProgressDialog(PTLOSApplicationDetailActivity.this);
+            progressDialog.setMessage("Requesting data from server ....");
+            progressDialog.show();
         } catch (Exception ex) {
             Log.e(TAG, "fetchPTLOSDetail ERROR: " + ex.getMessage());
         }

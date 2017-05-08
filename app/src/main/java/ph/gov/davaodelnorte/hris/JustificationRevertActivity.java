@@ -25,76 +25,48 @@ import java.util.Map;
 
 import app.MyApplication;
 
-public class JustificationPerMonthActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private final String TAG = JustificationPerMonthActivity.class.getSimpleName();
+public class JustificationRevertActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private final String TAG = JustificationRevertActivity.class.getSimpleName();
+
+    private ProgressDialog progressDialog;
     private ListView lv;
 
-    private final String url = "WebService/Toolbox/JustificationPerMonth";
+    private final String url = "WebService/Toolbox/JustificationRevert";
+
+    private ArrayList<HashMap<String, String>> _list;
 
     // Session Manager Class
     private SessionManager session;
     private HashMap<String, String> user;
 
-    private static String EIC, approvingEIC, name;
-
-    private ProgressDialog progressDialog;
-
+    private static String approvingEIC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_justification_per_month);
+        setContentView(R.layout.activity_justification_revert);
+
         try {
             session = new SessionManager(getApplicationContext());
             session.checkLogin();
             user = session.getUserDetails();
             approvingEIC = user.get(SessionManager.KEY_EIC);
 
-            lv = (ListView) findViewById(R.id.listJustificationPerMonth);
+            lv = (ListView) findViewById(R.id.listJustificationRevert);
             lv.setOnItemClickListener(this);
 
-            // get selected EIC
-            EIC = getIntent().getExtras().getString("EIC");
-            name = getIntent().getExtras().getString("name");
-            getSupportActionBar().setTitle(name);
-            Log.d(TAG, "onCreate name = " + name);
-
-            fetchJustificationPerMonth(EIC, approvingEIC);
-
+            fetchJustificationRevert(approvingEIC, user.get(SessionManager.KEY_DOMAIN) + this.url);
         } catch (Exception ex) {
             Log.e(TAG, "onCreate Error: " + ex.getMessage());
         }
+
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        try {
-            // get the object being selected
-            Object r = parent.getItemAtPosition(position);
-            HashMap<String, String> item = (HashMap<String, String>) r;
-
-            // forward the recNo to the next activity
-            Intent i = new Intent(this, JustificationDetailActivity.class);
-            i.putExtra("EIC", EIC);
-            i.putExtra("month", Integer.valueOf(item.get("month")));
-            i.putExtra("year", Integer.valueOf(item.get("year")));
-            i.putExtra("month_year", item.get("month_year"));
-            i.putExtra("period", Integer.valueOf(item.get("period")));
-            startActivity(i);
-        } catch(Exception ex) {
-            Log.e(TAG, "onItemClick Error: " + ex.getMessage());
-        }
-    }
-
-    private void fetchJustificationPerMonth(String EIC, String approvingEIC) {
+    private void fetchJustificationRevert(String approvingEIC, String url) {
 
         try {
             Map<String, String> params = new HashMap<>();
-            params.put("EIC", EIC);
             params.put("approvingEIC", approvingEIC);
             JSONObject parameters = new JSONObject(params);
-
-            // appending to url
-            String url = user.get(SessionManager.KEY_DOMAIN) + this.url;
 
             // Volley's json array request object
             JsonObjectRequest req = new JsonObjectRequest(url, parameters,
@@ -105,7 +77,6 @@ public class JustificationPerMonthActivity extends AppCompatActivity implements 
 
                             try {
 
-                                // for justifications
                                 ArrayList<HashMap<String, String>> _list = new ArrayList<>();
 
                                 JSONArray items = response.getJSONArray("justifications");
@@ -114,23 +85,20 @@ public class JustificationPerMonthActivity extends AppCompatActivity implements 
                                     JSONObject j = items.getJSONObject(i);
 
                                     HashMap<String, String> entry = new HashMap<>();
-                                    entry.put("total", String.valueOf(j.getInt("total")));
-                                    entry.put("month_year", j.getString("month_year"));
-                                    entry.put("month", j.getString("month"));
-                                    entry.put("year", j.getString("year"));
-                                    entry.put("period", String.valueOf(j.getInt("period")));
-                                    entry.put("period_label", j.getInt("period") == 0 ? "Full Month" : j.getInt("period") == 1 ? "1st Half": "2nd Half" );
+                                    entry.put("name", j.getString("fullnameFirst"));
+                                    entry.put("EIC", j.getString("EIC"));
+                                    entry.put("total", "Total: " + String.valueOf(j.getInt("total")));
 
                                     _list.add(entry);
 
                                 }
 
                                 ListAdapter adapter = new SimpleAdapter(
-                                        JustificationPerMonthActivity.this
+                                        JustificationRevertActivity.this
                                         ,_list
-                                        ,R.layout.list_item_justification_per_month
-                                        ,new String[]{"total", "month_year", "month", "year", "period", "period_label"}
-                                        ,new int[]{R.id.total, R.id.month_year, R.id.month, R.id.year, R.id.period, R.id.period_label}
+                                        ,R.layout.list_item_justification
+                                        ,new String[]{"name", "total", "EIC"}
+                                        ,new int[]{R.id.name, R.id.total_justifications, R.id.EIC}
                                 );
 
                                 lv.setAdapter(adapter);
@@ -150,12 +118,30 @@ public class JustificationPerMonthActivity extends AppCompatActivity implements 
             // Adding request to request queue
             MyApplication.getInstance().addToRequestQueue(req);
 
-            progressDialog = new ProgressDialog(JustificationPerMonthActivity.this);
+            progressDialog = new ProgressDialog(JustificationRevertActivity.this);
             progressDialog.setMessage("Requesting data from server ....");
             progressDialog.show();
+
         } catch (Exception ex) {
-            Log.e(TAG, "fetchJustificationPerMonth Error: " + ex.getMessage());
+            Log.e(TAG, "fetchJustificationRevert Error: " + ex.getMessage());
         }
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        try {
+            // get the object being selected
+            Object r = parent.getItemAtPosition(position);
+            HashMap<String, String> item = (HashMap<String, String>) r;
+
+            Intent i = new Intent(this, JustificationRevertPerMonthActivity.class);
+            i.putExtra("EIC", item.get("EIC"));
+            i.putExtra("name", item.get("name"));
+            startActivity(i);
+
+        } catch(Exception ex) {
+            Log.e(TAG, "onItemClick Error: " + ex.getMessage());
+        }
     }
 }

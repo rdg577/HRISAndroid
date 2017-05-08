@@ -1,7 +1,5 @@
 package ph.gov.davaodelnorte.hris;
 
-import android.content.Context;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +7,8 @@ import android.content.DialogInterface;
  * Created by Reden Gallera on 09/03/2017.
  */
 
-public class AlertDialogManager {
+@SuppressWarnings("DefaultFileTemplate")
+class AlertDialogManager {
     /**
      * Function to display simple Alert Dialog
      * @param context - application context
@@ -33,8 +32,14 @@ public class AlertDialogManager {
             /*alertDialog.setIcon((status) ? R.drawable.success : R.drawable.fail);*/
 
         // Setting OK Button
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+        /*alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+            }
+        });*/
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
             }
         });
 

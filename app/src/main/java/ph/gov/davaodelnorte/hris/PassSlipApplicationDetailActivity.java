@@ -26,25 +26,33 @@ import java.util.Map;
 import app.MyApplication;
 
 public class PassSlipApplicationDetailActivity extends AppCompatActivity {
-    private String TAG = PassSlipApplicationDetailActivity.class.getSimpleName();
+    private final String TAG = PassSlipApplicationDetailActivity.class.getSimpleName();
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    final String urlPassSlipDetail = "WebService/Toolbox/PassSlipDetail";
-    final String urlPassSlipApproval = "WebService/Toolbox/PassSlipApproval";
+    private final String urlPassSlipDetail = "WebService/Toolbox/PassSlipDetail";
+    private final String urlPassSlipApproval = "WebService/Toolbox/PassSlipApproval";
 
-    PassSlip passSlip;
+    private PassSlip passSlip;
 
     // Session Manager Class
-    SessionManager session;
-    HashMap<String, String> user;
+    private SessionManager session;
+    private HashMap<String, String> user;
 
-    int recNo;
+    private int recNo;
 
     // fields
-    TextView name, destination, purpose, time_out;
-    RadioButton isOfficial, isPersonal;
-    Button btnApprove, btnDisapprove, btnCancel;
+    private TextView name;
+    private TextView destination;
+    private TextView purpose;
+    private TextView time_out;
+    private RadioButton isOfficial;
+    private RadioButton isPersonal;
+    private Button btnApprove;
+    private Button btnDisapprove;
+    private Button btnCancel;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +75,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
             isOfficial = (RadioButton) findViewById(R.id.isOfficial);
             isPersonal = (RadioButton) findViewById(R.id.isPersonal);
 
-            btnApprove = (Button) findViewById(R.id.btnApprove);
+            btnApprove = (Button) findViewById(R.id.btnRevert);
             btnApprove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -123,7 +131,8 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response);
+                            progressDialog.dismiss();
+                            //Log.d(TAG, "Response: " + response);
                             try {
                                 JSONObject j = response.getJSONObject("pass_slip_approval");
 
@@ -161,6 +170,10 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
 
             // Adding request to request queue
             MyApplication.getInstance().addToRequestQueue(req);
+
+            progressDialog = new ProgressDialog(PassSlipApplicationDetailActivity.this);
+            progressDialog.setMessage("Requesting data from server ....");
+            progressDialog.show();
         } catch (Exception ex) {
             Log.e(TAG, "getPassSlipApproval ERROR: " + ex.getMessage());
         }
@@ -168,7 +181,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
     }
     private class GetPassSlipDetail extends AsyncTask<Void, Void, Void> {
 
-        private String _url;
+        private final String _url;
 
         public GetPassSlipDetail(String _url) {
             this._url = _url;
@@ -179,7 +192,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
                 super.onPreExecute();
                 // Showing progress dialog
                 pDialog = new ProgressDialog(PassSlipApplicationDetailActivity.this);
-                pDialog.setMessage("Please wait...");
+                pDialog.setMessage("Requesting data from server ....");
                 pDialog.setCancelable(false);
                 pDialog.show();
             }catch (Exception ex) {
@@ -250,7 +263,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
                 name.setText(passSlip.get_fullname());
                 destination.setText(passSlip.get_destination());
                 purpose.setText(passSlip.get_purpose());
-                time_out.setText(passSlip.get_timeOut().toString());
+                time_out.setText(passSlip.get_timeOut());
                 if(passSlip.get_isOfficial()==2) {
                     isOfficial.setChecked(true);
                 } else if(passSlip.get_isOfficial()==1) {

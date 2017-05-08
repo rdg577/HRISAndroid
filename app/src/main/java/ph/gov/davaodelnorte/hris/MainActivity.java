@@ -30,16 +30,16 @@ import helper.Menu;
 import helper.SwipeListAdapter;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
-    private String TAG = MainActivity.class.getSimpleName();
-    private String URL = "WebService/Toolbox/GetAllApplications?approvingEIC=";
+    private final String TAG = MainActivity.class.getSimpleName();
+    private final String URL = "WebService/Toolbox/GetAllApplications?approvingEIC=";
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private SwipeListAdapter adapter;
     private List<Menu> menuList;
     // Session Manager Class
-    SessionManager session;
-    HashMap<String, String> user;
+    private SessionManager session;
+    private HashMap<String, String> user;
 
     @Override
     protected void onStart() {
@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             adapter = new SwipeListAdapter(this, menuList);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
+
+
         } catch (Exception ex) {
             Log.e(TAG, "ERROR: " + ex.getMessage());
         }
@@ -83,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         switch (item.getItemId()) {
             case R.id.logout:
                 session.logoutUser();
+                // start service
+                stopService(new Intent(getBaseContext(),HRISService.class));
+
                 return true;
             case R.id.refresh:
                 onRefresh();
@@ -101,19 +106,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             // get the object being selected
             Object r = parent.getItemAtPosition(position);
             Menu m = (Menu) r;
-            switch (m.Title) {
-                case "PASS SLIP":
-                    Intent intentPassSlip = new Intent(this, PassSlipActivity.class);
-                    startActivity(intentPassSlip);
-                    break;
-                case "PTLOS":
-                    Intent intentPTLOS = new Intent(this, PTLOSActivity.class);
-                    startActivity(intentPTLOS);
-                    break;
-                case "JUSTIFICATION":
-                    Intent intentJustification = new Intent(this, JustificationActivity.class);
-                    startActivity(intentJustification);
-                    break;
+            if(m.getTotalApplications() > 0) {
+                switch (m.getTitle()) {
+                    case "PASS SLIP":
+                        Intent intentPassSlip = new Intent(this, PassSlipActivity.class);
+                        startActivity(intentPassSlip);
+                        break;
+                    case "PTLOS":
+                        Intent intentPTLOS = new Intent(this, PTLOSActivity.class);
+                        startActivity(intentPTLOS);
+                        break;
+                    case "JUSTIFICATION":
+                        Intent intentJustification = new Intent(this, JustificationActivity.class);
+                        startActivity(intentJustification);
+                        break;
+                    case "REVERT - JUSTIFICATION":
+                        Intent intentJustificationRevert = new Intent(this, JustificationRevertActivity.class);
+                        startActivity(intentJustificationRevert);
+                        break;
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Zero application!", Toast.LENGTH_LONG).show();
             }
         } catch(Exception ex) {
             Log.e(TAG, "Error: " + ex.getMessage());
