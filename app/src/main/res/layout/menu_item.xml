@@ -13,6 +13,7 @@
         android:background="@drawable/ic_ptlos"
         android:padding="25dp"
         android:textAlignment="center"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
 

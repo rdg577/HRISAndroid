@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private HashMap<String, String> user;
 
     @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -123,6 +128,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     case "REVERT - JUSTIFICATION":
                         Intent intentJustificationRevert = new Intent(this, JustificationRevertActivity.class);
                         startActivity(intentJustificationRevert);
+                        break;
+                    case "RETURN - DTR":
+                        Intent intentDTRReturn = new Intent(this, DTRReturnActivity.class);
+                        startActivity(intentDTRReturn);
                         break;
                 }
             } else {

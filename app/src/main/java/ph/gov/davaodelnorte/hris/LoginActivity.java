@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     JSONObject j = items.getJSONObject(i);
                                                     // Creating user login session
                                                     session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
-                                                    //session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://172.16.130.61/");
+                                                    //session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://172.16.90.173/");
                                                 }
 
                                                 Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
@@ -151,5 +152,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        /*super.onBackPressed();*/
     }
 }

@@ -40,6 +40,13 @@ public class JustificationRevertActivity extends AppCompatActivity implements Ad
     private HashMap<String, String> user;
 
     private static String approvingEIC;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,9 +103,9 @@ public class JustificationRevertActivity extends AppCompatActivity implements Ad
                                 ListAdapter adapter = new SimpleAdapter(
                                         JustificationRevertActivity.this
                                         ,_list
-                                        ,R.layout.list_item_justification
+                                        ,R.layout.list_item
                                         ,new String[]{"name", "total", "EIC"}
-                                        ,new int[]{R.id.name, R.id.total_justifications, R.id.EIC}
+                                        ,new int[]{R.id.name, R.id.total_application, R.id.EIC}
                                 );
 
                                 lv.setAdapter(adapter);

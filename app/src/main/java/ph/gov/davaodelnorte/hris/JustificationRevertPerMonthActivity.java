@@ -41,6 +41,12 @@ public class JustificationRevertPerMonthActivity extends AppCompatActivity imple
     private ProgressDialog progressDialog;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, JustificationRevertActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_justification_revert_per_month);
@@ -131,7 +137,7 @@ public class JustificationRevertPerMonthActivity extends AppCompatActivity imple
                                         ,_list
                                         ,R.layout.list_item_justification_per_month
                                         ,new String[]{"total", "month_year", "month", "year", "period", "period_label"}
-                                        ,new int[]{R.id.total, R.id.month_year, R.id.month, R.id.year, R.id.period, R.id.period_label}
+                                        ,new int[]{R.id.total, R.id.year_month, R.id.month, R.id.year, R.id.period, R.id.period_label}
                                 );
 
                                 lv.setAdapter(adapter);

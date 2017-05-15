@@ -39,6 +39,12 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
     private static String approvingEIC;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass_slip);
@@ -193,7 +199,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
                     ,_list
                     ,R.layout.list_item_pass_slips
                     ,new String[]{"name", "destination", "time_out", "recNo"}
-                    ,new int[]{R.id.name, R.id.total_justifications, R.id.date, R.id.recNo}
+                    ,new int[]{R.id.name, R.id.total_application, R.id.date, R.id.recNo}
             );
 
             lv.setAdapter(adapter);

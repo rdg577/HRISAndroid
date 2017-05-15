@@ -63,6 +63,14 @@ public class JustificationDetailActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, JustificationPerMonthActivity.class);
+        intent.putExtra("EIC", EIC);
+        intent.putExtra("name", name.getText().toString());
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_justification_detail);
@@ -226,8 +234,8 @@ public class JustificationDetailActivity extends AppCompatActivity {
             params.put("statusID", String.valueOf(statusID));
             params.put("remarks", remarks);
             params.put("period", String.valueOf(period));
+
             JSONObject parameters = new JSONObject(params);
-            Log.d(TAG, "parameters = " + parameters.toString());
 
             // appending to url
             String url = user.get(SessionManager.KEY_DOMAIN) + this.urlApproval;

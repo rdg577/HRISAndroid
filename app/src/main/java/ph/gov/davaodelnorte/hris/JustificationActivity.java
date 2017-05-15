@@ -37,6 +37,11 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
     private static String approvingEIC;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_justification);
@@ -183,9 +188,9 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
             ListAdapter adapter = new SimpleAdapter(
                     JustificationActivity.this
                     ,_list
-                    ,R.layout.list_item_justification
+                    ,R.layout.list_item
                     ,new String[]{"name", "total_justifications", "EIC"}
-                    ,new int[]{R.id.name, R.id.total_justifications, R.id.EIC}
+                    ,new int[]{R.id.name, R.id.total_application, R.id.EIC}
             );
 
             lv.setAdapter(adapter);

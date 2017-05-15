@@ -53,6 +53,11 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, PTLOSActivity.class);
+        startActivity(intent);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ptlosapplication_detail);
@@ -65,7 +70,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
             user = session.getUserDetails();
             // fields
             name = (TextView) findViewById(R.id.name);
-            destination = (TextView) findViewById(R.id.total_justifications);
+            destination = (TextView) findViewById(R.id.total_application);
             purpose = (TextView) findViewById(R.id.reason);
             date_applied = (TextView) findViewById(R.id.date);
             departure = (TextView) findViewById(R.id.departure);

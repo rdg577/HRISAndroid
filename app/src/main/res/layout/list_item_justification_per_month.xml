@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/total"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="65dp"
+        android:layout_height="45dp"
         android:background="@drawable/circular_textview"
         android:gravity="center_vertical|center_horizontal"
         android:text="1234"
@@ -19,10 +18,13 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/month_year"
+        android:id="@+id/year_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -37,12 +39,12 @@
         android:id="@+id/month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="8dp"
         android:text="12"
         android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="@+id/month_year"
-        app:layout_constraintTop_toBottomOf="@+id/month_year" />
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/year_month"
+        app:layout_constraintBaseline_toBaselineOf="@+id/year_month" />
 
     <TextView
         android:id="@+id/year"
@@ -71,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:textColor="@color/hris_colorPrimaryDark"
-        app:layout_constraintLeft_toLeftOf="@+id/month_year"
-        app:layout_constraintTop_toBottomOf="@+id/month_year" />
+        android:textColor="@color/hris_colorPrimary"
+        app:layout_constraintLeft_toLeftOf="@+id/year_month"
+        app:layout_constraintTop_toBottomOf="@+id/year_month" />
 </android.support.constraint.ConstraintLayout>

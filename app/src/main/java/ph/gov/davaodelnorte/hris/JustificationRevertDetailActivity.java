@@ -62,6 +62,14 @@ public class JustificationRevertDetailActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, JustificationRevertPerMonthActivity.class);
+        intent.putExtra("EIC", EIC);
+        intent.putExtra("name", name.getText().toString());
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_justification_revert_detail);

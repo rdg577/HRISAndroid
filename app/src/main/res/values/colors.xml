@@ -10,10 +10,15 @@
     <color name="hris_colorPrimaryDark">#19571c</color>
 
     <string-array name="menu_bg_colors">
-        <item>#24c6d5</item>
-        <item>#57dd86</item>
-        <item>#ad7dcf</item>
-        <item>#2ac714</item>
-        <item>#e41ae4</item>
+        <item>#d50000</item>
+        <item>#f50057</item>
+        <item>#fdd835</item>
+        <item>#4fc3f7</item>
+        <item>#01579b</item>
+        <item>#ff9800</item>
+        <item>#673ab7</item>
+        <item>#827717</item>
+        <item>#4caf50</item>
+        <item>#006064</item>
     </string-array>
 </resources>

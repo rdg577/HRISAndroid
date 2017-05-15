@@ -116,7 +116,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".JustificationRevertActivity" />
         </activity>
-        <activity android:name=".JustificationRevertDetailActivity"
+        <activity
+            android:name=".JustificationRevertDetailActivity"
             android:label="Justification Detail For Reversal"
             android:parentActivityName=".JustificationRevertActivity">
 
@@ -124,6 +125,25 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".JustificationRevertActivity" />
+        </activity>
+        <activity
+            android:name=".DTRReturnActivity"
+            android:label="Request for Return of DTR"
+            android:parentActivityName=".MainActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".DTRReturnPerEmployeeActivity"
+            android:label="Request for Return of DTR"
+            android:parentActivityName=".DTRReturnActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DTRReturnActivity" />
         </activity>
     </application>
 

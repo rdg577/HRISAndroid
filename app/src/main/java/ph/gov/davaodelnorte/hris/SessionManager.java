@@ -42,6 +42,8 @@ class SessionManager {
     // Domain (make variable public to access from outside)
     public static final String KEY_DOMAIN = "domain";
 
+    public static final String KEY_NOTIFICATION_COUNT = "notification_count";
+
     // Constructor
     public SessionManager(Context context){
         this._context = context;
@@ -71,6 +73,8 @@ class SessionManager {
         // commit changes
         editor.commit();
     }
+
+
 
     /**
      * Get stored session data

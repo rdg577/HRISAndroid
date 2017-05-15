@@ -55,6 +55,11 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, PassSlipActivity.class);
+        startActivity(intent);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass_slip_application_detail);
@@ -69,7 +74,7 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
         try {
             // fields
             name = (TextView) findViewById(R.id.name);
-            destination=(TextView) findViewById(R.id.total_justifications);
+            destination=(TextView) findViewById(R.id.total_application);
             purpose = (TextView) findViewById(R.id.reason);
             time_out = (TextView) findViewById(R.id.time_out);
             isOfficial = (RadioButton) findViewById(R.id.isOfficial);

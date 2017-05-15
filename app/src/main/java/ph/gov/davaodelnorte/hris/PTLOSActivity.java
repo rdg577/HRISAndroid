@@ -43,6 +43,11 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
     private ProgressDialog progressDialog;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ptlos);
@@ -106,7 +111,7 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
                                         ,_list
                                         ,R.layout.list_item_ptlos
                                         ,new String[]{"name", "destination", "date_applied", "recNo"}
-                                        ,new int[]{R.id.name, R.id.total_justifications, R.id.date, R.id.recNo}
+                                        ,new int[]{R.id.name, R.id.total_application, R.id.date, R.id.recNo}
                                 );
 
                                 lv.setAdapter(adapter);
