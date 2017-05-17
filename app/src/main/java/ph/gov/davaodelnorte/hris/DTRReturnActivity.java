@@ -129,6 +129,9 @@ public class DTRReturnActivity extends AppCompatActivity implements AdapterView.
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
+                            startService(new Intent(getBaseContext(),HRISService.class));
+
                         }
                     },
                     new Response.ErrorListener() {

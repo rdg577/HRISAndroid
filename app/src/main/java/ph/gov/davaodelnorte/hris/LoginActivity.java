@@ -110,13 +110,10 @@ public class LoginActivity extends AppCompatActivity {
                                                     JSONObject j = items.getJSONObject(i);
                                                     // Creating user login session
                                                     session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
-                                                    //session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://172.16.90.173/");
+                                                    //session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://192.168.1.187/");
                                                 }
 
-                                                Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_LONG).show();
-
-                                                // start service
-                                                startService(new Intent(getBaseContext(),HRISService.class));
+                                                Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_SHORT).show();
 
                                                 // Starting MainActivity
                                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);

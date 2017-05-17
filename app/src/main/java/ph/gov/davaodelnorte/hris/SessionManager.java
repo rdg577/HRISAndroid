@@ -11,7 +11,7 @@ import android.content.SharedPreferences.Editor;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-class SessionManager {
+public class SessionManager {
     // Shared Preferences
     private final SharedPreferences pref;
 
@@ -74,6 +74,16 @@ class SessionManager {
         editor.commit();
     }
 
+    public void setNotificationCount(int total_notification) {
+        // Storing total notification
+        editor.putInt(KEY_NOTIFICATION_COUNT, total_notification);
+        // commit changes
+        editor.commit();
+    }
+
+    public int getNotificationCount() {
+        return pref.getInt(KEY_NOTIFICATION_COUNT, 0);
+    }
 
 
     /**

@@ -3,6 +3,9 @@
     package="ph.gov.davaodelnorte.hris">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
+    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
 
     <application
         android:name="app.MyApplication"
@@ -95,6 +98,8 @@
         </activity>
 
         <service android:name=".HRISService" />
+
+        <receiver android:name="helper.AlarmReceiver" />
 
         <activity
             android:name=".JustificationRevertActivity"

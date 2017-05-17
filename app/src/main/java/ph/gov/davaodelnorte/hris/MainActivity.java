@@ -1,7 +1,12 @@
 package ph.gov.davaodelnorte.hris;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.MyApplication;
+import helper.AlarmReceiver;
+import helper.Badge;
 import helper.Menu;
 import helper.SwipeListAdapter;
 
@@ -37,13 +44,37 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ListView listView;
     private SwipeListAdapter adapter;
     private List<Menu> menuList;
+
     // Session Manager Class
     private SessionManager session;
     private HashMap<String, String> user;
 
+    private PendingIntent pendingIntent;
+    private AlarmManager manager;
+
+    private int total_applications;
+
     @Override
     public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("DavNor HRIS")
+                .setMessage("Do you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(getApplicationContext(), "HRIS works for you.....Thanks!", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                });
 
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -51,7 +82,30 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onStart();
         swipeRefreshLayout.setOnRefreshListener(this);
         fetchMenus(user.get(SessionManager.KEY_EIC));
+
+        if(session.isLoggedIn()) {
+            // make a broadcast of the alarm intent
+            Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+            startAlarm(getCurrentFocus());
+        }
     }
+
+    public void startAlarm(View view) {
+        manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        int num_of_hours = 2;
+
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR * num_of_hours, pendingIntent);
+    }
+
+    public void cancelAlarm(View view) {
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -61,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             // Session class instance
             session = new SessionManager(getApplicationContext());
             session.checkLogin();
+
             user = session.getUserDetails();
 
             Log.d(TAG, "user=" + user.toString());
@@ -72,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             adapter = new SwipeListAdapter(this, menuList);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
-
 
         } catch (Exception ex) {
             Log.e(TAG, "ERROR: " + ex.getMessage());
@@ -89,9 +143,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
+
+                // clear badge
+                Context context = getApplicationContext();
+                if (Badge.isBadgingSupported(context)) {
+                    Badge badge = Badge.getBadge(context);
+                    if (badge != null) {
+                        Log.d(TAG, "Badge : " + badge.toString());
+                        badge.mBadgeCount = 0;
+                        badge.update(context);
+                    } else {
+                        // Nothing to do as this means you don't have a badge record with the BadgeProvider
+                        // Thus you shouldn't even have a badge count on your icon
+                    }
+                }
+
+                stopService(getIntent());
+
+                // set off the alarm
+                cancelAlarm(getCurrentFocus());
+
                 session.logoutUser();
-                // start service
-                stopService(new Intent(getBaseContext(),HRISService.class));
 
                 return true;
             case R.id.refresh:
@@ -146,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
     private void fetchMenus(String approvingEIC) {
         try {
+
             // showing refresh animation before making http call
             swipeRefreshLayout.setRefreshing(true);
             // appending to url
@@ -155,11 +228,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
+
                             Log.d(TAG, "response=" + response);
+
                             if (response.length() > 0) {
+
+                                // initial applications before request response
+                                total_applications = 0;
+
                                 // clear the list
                                 menuList.clear();
-                                // looping through json and adding to movies list
+                                // looping through json
                                 for (int i = 0; i < response.length(); i++) {
                                     try {
                                         JSONObject menuObj = response.getJSONObject(i);
@@ -167,9 +246,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                                         int id = menuObj.getInt("Id");
                                         String title = menuObj.getString("Title");
                                         String iconUrl = menuObj.getString("IconUrl");
-                                        int totalApplications = menuObj.getInt("TotalApplications");
+                                        int applications = menuObj.getInt("TotalApplications");
 
-                                        Menu m = new Menu(id, title, iconUrl, totalApplications);
+                                        // update total applications
+                                        total_applications += applications;
+
+                                        Menu m = new Menu(id, title, iconUrl, applications);
 
                                         menuList.add(0, m);
                                     } catch (JSONException e) {
@@ -180,6 +262,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                             }
                             // stopping swipe refresh
                             swipeRefreshLayout.setRefreshing(false);
+
+                            // store up total applications
+                            session.setNotificationCount(total_applications);
+
+                            startService(new Intent(getBaseContext(),HRISService.class));
+
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -191,10 +279,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 }
             }
             );
+
             // Adding request to request queue
             MyApplication.getInstance().addToRequestQueue(req);
         } catch (Exception ex) {
             Log.e(TAG, "ERROR: " + ex.getMessage());
+        } finally {
+
         }
     }
 }

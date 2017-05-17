@@ -163,6 +163,9 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
+                            startService(new Intent(getBaseContext(),HRISService.class));
+
                         }
                     },
                     new Response.ErrorListener() {

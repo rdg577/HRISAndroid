@@ -182,7 +182,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response);
+
                             try {
                                 JSONObject j = response.getJSONObject("ptlos_approval");
                                 if(j.getInt("tag") == 4) {
@@ -197,6 +197,9 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
+                            startService(new Intent(getBaseContext(),HRISService.class));
+
                         }
                     },
                     new Response.ErrorListener() {
