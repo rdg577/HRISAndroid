@@ -68,14 +68,14 @@ public class HRISService extends Service {
                     @Override
                     public void run() {
                         String url = user.get(SessionManager.KEY_DOMAIN) + URL + user.get(SessionManager.KEY_EIC);
-                        Log.d(getClass().getName(), url);
+//                        Log.d(getClass().getName(), url);
 
                         // Volley's json array request object
                         JsonArrayRequest req = new JsonArrayRequest(url,
                                 new Response.Listener<JSONArray>() {
                                     @Override
                                     public void onResponse(JSONArray response) {
-                                        Log.d(getClass().getName(), response.toString());
+//                                        Log.d(getClass().getName(), response.toString());
 
                                         // initial applications before request response
                                         int total_applications = 0;
@@ -148,14 +148,6 @@ public class HRISService extends Service {
     private void showBadge() {
         try {
             ShortcutBadger.setBadge(getApplicationContext(), session.getNotificationCount());
-            /*Context context = getApplicationContext();
-            if (Badge.isBadgingSupported(context)) {
-                Badge badge = new Badge();
-                badge.mPackage = context.getPackageName();
-                badge.mClass = context.getPackageName().concat(".MainActivity"); // This should point to Activity declared as android.intent.action.MAIN
-                badge.mBadgeCount = session.getNotificationCount();
-                badge.save(context);
-            }*/
         } catch (Exception e) {
             Log.e(getClass().getName(), "Error: " + e.getMessage());
         }
@@ -165,17 +157,6 @@ public class HRISService extends Service {
     private void clearBadge() {
         try {
             ShortcutBadger.setBadge(getApplicationContext(), 0);
-            /*Context context = getApplicationContext();
-            if (Badge.isBadgingSupported(context)) {
-                Badge badge = Badge.getBadge(context);
-                if (badge != null) {
-                    badge.mBadgeCount = 0;
-                    badge.update(context);
-                } else {
-                    // Nothing to do as this means you don't have a badge record with the BadgeProvider
-                    // Thus you shouldn't even have a badge count on your icon
-                }
-            }*/
         } catch (Exception e) {
             Log.e(getClass().getName(), "Error: " + e.getMessage());
         }
@@ -206,6 +187,8 @@ public class HRISService extends Service {
                     .setPriority(NotificationCompat.PRIORITY_MAX);
 
             Notification notification = builder.build();
+            notification.defaults |= Notification.DEFAULT_SOUND;
+            notification.defaults |= Notification.DEFAULT_VIBRATE;
 
             NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(001, notification);
