@@ -35,6 +35,8 @@ import helper.AlarmReceiver;
 import helper.Badge;
 import helper.Menu;
 import helper.SwipeListAdapter;
+import me.leolin.shortcutbadger.ShortcutBadgeException;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     private final String TAG = MainActivity.class.getSimpleName();
@@ -60,11 +62,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         builder.setTitle("DavNor HRIS")
                 .setMessage("Do you want to exit?")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Yes, exit now!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        Toast.makeText(getApplicationContext(), "HRIS works for you.....Thanks!", Toast.LENGTH_LONG).show();
                         finish();
+                        Toast.makeText(getApplicationContext(), "HRIS works for you.....Thanks!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void startAlarm(View view) {
         manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        int num_of_hours = 2;
+        int num_of_hours = 1;
 
         manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR * num_of_hours, pendingIntent);
     }
@@ -144,18 +146,25 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         switch (item.getItemId()) {
             case R.id.logout:
 
-                // clear badge
-                Context context = getApplicationContext();
-                if (Badge.isBadgingSupported(context)) {
-                    Badge badge = Badge.getBadge(context);
-                    if (badge != null) {
-                        Log.d(TAG, "Badge : " + badge.toString());
-                        badge.mBadgeCount = 0;
-                        badge.update(context);
-                    } else {
-                        // Nothing to do as this means you don't have a badge record with the BadgeProvider
-                        // Thus you shouldn't even have a badge count on your icon
-                    }
+                try {
+
+                    // clear badge
+                    ShortcutBadger.setBadge(getApplicationContext(), 0);
+
+                    /*Context context = getApplicationContext();
+                    if (Badge.isBadgingSupported(context)) {
+                        Badge badge = Badge.getBadge(context);
+                        if (badge != null) {
+                            Log.d(TAG, "Badge : " + badge.toString());
+                            badge.mBadgeCount = 0;
+                            badge.update(context);
+                        } else {
+                            // Nothing to do as this means you don't have a badge record with the BadgeProvider
+                            // Thus you shouldn't even have a badge count on your icon
+                        }
+                    }*/
+                } catch (ShortcutBadgeException e) {
+                    e.printStackTrace();
                 }
 
                 stopService(getIntent());
