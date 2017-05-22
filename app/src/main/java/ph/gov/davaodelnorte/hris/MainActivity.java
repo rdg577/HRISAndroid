@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                             // store up total applications
                             session.setNotificationCount(total_applications);
 
-                            startService(new Intent(getBaseContext(),HRISService.class));
+//                            startService(new Intent(getBaseContext(),HRISService.class));
 
                         }
                     }, new Response.ErrorListener() {
