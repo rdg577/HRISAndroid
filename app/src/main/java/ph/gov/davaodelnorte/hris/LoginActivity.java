@@ -32,7 +32,7 @@ import app.MyApplication;
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = LoginActivity.class.getSimpleName();
-    // private final String URL = "http://www.davaodelnorte.gov.ph:333/";
+//    private final String URL = "http://www.davaodelnorte.gov.ph:333/";
     private final String URL = "http://222.127.105.70:333/";
 
     private boolean login_flag = false;
@@ -110,8 +110,17 @@ public class LoginActivity extends AppCompatActivity {
                                                     JSONObject j = items.getJSONObject(i);
                                                     // Creating user login session
                                                     session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
-                                                    //session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://172.16.130.65/");
-                                                    // MS1229370656BF505D6E, EB13329278333FAC0E72, SA168298389632EB9AD5, GG509743801BE28F3B0E
+
+//                                                    session.createLoginSession("HP158780225294D64318", j.getString("fullnameLast"), URL);
+//                                                    session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://172.16.130.65/");
+                                                    /**
+                                                     * MS1229370656BF505D6E,
+                                                     * EB13329278333FAC0E72,
+                                                     * SA168298389632EB9AD5,
+                                                     * GG509743801BE28F3B0E,
+                                                     * SG11024211748EF3FCD4,
+                                                     * HP158780225294D64318
+                                                      */
                                                 }
 
                                                 Toast.makeText(getApplicationContext(), "User Login Status: " + (session.isLoggedIn()? "IN":"OUT"), Toast.LENGTH_SHORT).show();

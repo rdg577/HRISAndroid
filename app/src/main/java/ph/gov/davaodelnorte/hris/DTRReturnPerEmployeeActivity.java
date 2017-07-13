@@ -106,29 +106,6 @@ public class DTRReturnPerEmployeeActivity extends AppCompatActivity implements A
                         String remarks = "As requested by the owner.";
                         int action = 0; // 0 - returned
                         returnDTR(DtrId, strPeriod, intPeriod, action, approvingEIC, remarks, user.get(SessionManager.KEY_DOMAIN) + urlApproval);
-
-                        /*
-                        AlertDialog.Builder alertGetRemarkBuilder = new AlertDialog.Builder(DTRReturnPerEmployeeActivity.this);
-                        alertGetRemarkBuilder.setTitle("Remark")
-                                .setMessage("Kindly enter the reason of returning this DTR.")
-                                .setView(input)
-                                .setCancelable(false)
-                                .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        String remarks = input.getText().toString();
-                                        int action = 0; // 0 - returned
-                                        returnDTR(DtrId, strPeriod, intPeriod, action, approvingEIC, remarks, user.get(SessionManager.KEY_DOMAIN) + urlApproval);
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "Operation has been cancelled.", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                        alertGetRemarkBuilder.create().show();
-                        */
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

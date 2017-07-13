@@ -81,7 +81,9 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            PTLOSApproval(recNo, 5);    // 5 - approve
+                            // 5 - approve
+                            int tag = 5;
+                            PTLOSApproval(recNo, tag);
                         }
                     }
             );
@@ -90,7 +92,9 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            PTLOSApproval(recNo, 4);    // 4 - approve
+                            // 6 - disapprove
+                            int tag = 6;
+                            PTLOSApproval(recNo, tag);
                         }
                     }
             );
@@ -99,7 +103,9 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            PTLOSApproval(recNo, 0);    // 0 - returned
+                            // 0 - returned
+                            int tag = 0;
+                            PTLOSApproval(recNo, tag);
                         }
                     }
             );
@@ -185,7 +191,7 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
 
                             try {
                                 JSONObject j = response.getJSONObject("ptlos_approval");
-                                if(j.getInt("tag") == 4) {
+                                if(j.getInt("tag") == 6) {
                                     Toast.makeText(getApplicationContext(), "PTLOS Disapproved!",Toast.LENGTH_LONG).show();
                                 }else if(j.getInt("tag") == 5) {
                                     Toast.makeText(getApplicationContext(), "PTLOS Approved!",Toast.LENGTH_LONG).show();

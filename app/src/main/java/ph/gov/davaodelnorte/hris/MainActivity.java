@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .setPositiveButton("Yes, exit now!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        finish();
                         Toast.makeText(getApplicationContext(), "HRIS works for you.....Thanks!", Toast.LENGTH_SHORT).show();
+                        finishAffinity();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void startAlarm(View view) {
         manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         int num_of_hours = 1;
-
+//        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5000, pendingIntent);
         manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR * num_of_hours, pendingIntent);
     }
 
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e(TAG, "Server Error: " + error.getMessage());
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Server connection failed. Kindly check your internet connection.", Toast.LENGTH_LONG).show();
                     // stopping swipe refresh
                     swipeRefreshLayout.setRefreshing(false);
                 }

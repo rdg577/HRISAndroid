@@ -15,8 +15,8 @@ android {
         applicationId "ph.gov.davaodelnorte.hris"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }

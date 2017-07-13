@@ -4,6 +4,7 @@
     package="ph.gov.davaodelnorte.hris">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
     <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
     <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
