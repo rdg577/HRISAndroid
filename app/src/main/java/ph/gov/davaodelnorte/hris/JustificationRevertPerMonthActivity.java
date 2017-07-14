@@ -30,7 +30,7 @@ public class JustificationRevertPerMonthActivity extends AppCompatActivity imple
     private final String TAG = JustificationRevertPerMonthActivity.class.getSimpleName();
     private ListView lv;
 
-    private final String url = "WebService/Toolbox/JustificationRevertPerMonth";
+    private final String url = "WebService/Justification/JustificationRevertPerMonth";
 
     // Session Manager Class
     private SessionManager session;

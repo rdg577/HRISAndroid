@@ -31,7 +31,7 @@ public class JustificationRevertActivity extends AppCompatActivity implements Ad
     private ProgressDialog progressDialog;
     private ListView lv;
 
-    private final String url = "WebService/Toolbox/JustificationRevert";
+    private final String url = "WebService/Justification/JustificationRevert";
 
     private ArrayList<HashMap<String, String>> _list;
 

@@ -28,7 +28,7 @@ public class PassSlipActivity extends AppCompatActivity implements AdapterView.O
     private ListView lv;
 
     // URL to get JSON
-    private final String url = "WebService/Toolbox/PassSlipsPending?approvingEIC=";
+    private final String url = "WebService/PassSlip/PassSlipsPending?approvingEIC=";
 
     private ArrayList<HashMap<String, String>> _list;
 

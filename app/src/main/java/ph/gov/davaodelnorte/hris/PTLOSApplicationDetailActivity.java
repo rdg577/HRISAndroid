@@ -28,8 +28,8 @@ public class PTLOSApplicationDetailActivity extends AppCompatActivity {
     private final String TAG = PTLOSApplicationDetailActivity.class.getSimpleName();
 
     // URL to get JSON
-    private final String urlPTLOSDetail = "WebService/Toolbox/PTLOSDetail";
-    private final String urlPTLOSApproval = "WebService/Toolbox/PTLOSApproval";
+    private final String urlPTLOSDetail = "WebService/PTLOS/PTLOSDetail";
+    private final String urlPTLOSApproval = "WebService/PTLOS/PTLOSApproval";
 
     // Session Manager Class
     private SessionManager session;

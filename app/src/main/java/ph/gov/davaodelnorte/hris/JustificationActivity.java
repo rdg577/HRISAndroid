@@ -26,7 +26,7 @@ public class JustificationActivity extends AppCompatActivity implements AdapterV
     private ProgressDialog pDialog;
     private ListView lv;
 
-    private final String url = "WebService/Toolbox/JustificationPending?approvingEIC=";
+    private final String url = "WebService/Justification/JustificationPending?approvingEIC=";
 
     private ArrayList<HashMap<String, String>> _list;
 

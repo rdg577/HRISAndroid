@@ -111,8 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                                                     // Creating user login session
                                                     session.createLoginSession(j.getString("EIC"), j.getString("fullnameLast"), URL);
 
-//                                                    session.createLoginSession("HP158780225294D64318", j.getString("fullnameLast"), URL);
-//                                                    session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://172.16.130.65/");
+//                                                    session.createLoginSession("EB13329278333FAC0E72", j.getString("fullnameLast"), URL);
+//                                                    session.createLoginSession("MS1229370656BF505D6E", j.getString("fullnameLast"), "http://172.16.150.119/");
                                                     /**
                                                      * MS1229370656BF505D6E,
                                                      * EB13329278333FAC0E72,

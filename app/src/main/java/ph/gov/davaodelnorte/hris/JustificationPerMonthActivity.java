@@ -29,7 +29,7 @@ public class JustificationPerMonthActivity extends AppCompatActivity implements 
     private final String TAG = JustificationPerMonthActivity.class.getSimpleName();
     private ListView lv;
 
-    private final String url = "WebService/Toolbox/JustificationPerMonth";
+    private final String url = "WebService/Justification/JustificationPerMonth";
 
     // Session Manager Class
     private SessionManager session;

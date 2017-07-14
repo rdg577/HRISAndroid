@@ -31,7 +31,7 @@ public class DTRReturnActivity extends AppCompatActivity implements AdapterView.
     private ProgressDialog progressDialog;
     private ListView lv;
 
-    private final String url = "WebService/Toolbox/DTRReturnRequest";
+    private final String url = "WebService/DTR/DTRReturnRequest";
 
     private ArrayList<HashMap<String, String>> _list;
 

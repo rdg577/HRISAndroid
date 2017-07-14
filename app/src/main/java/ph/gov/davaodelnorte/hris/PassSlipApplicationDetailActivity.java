@@ -30,8 +30,8 @@ public class PassSlipApplicationDetailActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    private final String urlPassSlipDetail = "WebService/Toolbox/PassSlipDetail";
-    private final String urlPassSlipApproval = "WebService/Toolbox/PassSlipApproval";
+    private final String urlPassSlipDetail = "WebService/PassSlip/PassSlipDetail";
+    private final String urlPassSlipApproval = "WebService/PassSlip/PassSlipApproval";
 
     private PassSlip passSlip;
 

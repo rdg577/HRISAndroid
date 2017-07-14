@@ -30,7 +30,7 @@ public class PTLOSActivity extends AppCompatActivity implements AdapterView.OnIt
     private ListView lv;
 
     // URL to get JSON
-    private final String url = "WebService/Toolbox/GetPTLOSApplications?approvingEIC=";
+    private final String url = "WebService/PTLOS/GetPTLOSApplications?approvingEIC=";
 
     private ArrayList<HashMap<String, String>> _list;
 

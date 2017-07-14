@@ -36,8 +36,8 @@ public class JustificationDetailActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     // URL to get JSON
-    private final String urlDetail = "WebService/Toolbox/JustificationDetail";
-    private final String urlApproval = "WebService/Toolbox/JustificationApproval";
+    private final String urlDetail = "WebService/Justification/JustificationDetail";
+    private final String urlApproval = "WebService/Justification/JustificationApproval";
 
     // Session Manager Class
     private SessionManager session;

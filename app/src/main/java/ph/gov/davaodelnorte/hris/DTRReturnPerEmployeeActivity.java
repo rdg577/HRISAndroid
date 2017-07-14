@@ -35,8 +35,8 @@ public class DTRReturnPerEmployeeActivity extends AppCompatActivity implements A
     private final String TAG = DTRReturnPerEmployeeActivity.class.getSimpleName();
     private ListView lv;
 
-    private final String url = "WebService/Toolbox/DTRReturnRequestPerEmployee";
-    private final String urlApproval = "WebService/Toolbox/DTRAction";
+    private final String url = "WebService/DTR/DTRReturnRequestPerEmployee";
+    private final String urlApproval = "WebService/DTR/DTRAction";
 
     // Session Manager Class
     private SessionManager session;
